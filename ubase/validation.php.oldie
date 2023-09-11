@@ -1,0 +1,68 @@
+<?php
+try
+{
+    //Set the response content type to application/json
+    header("Content-Type:application/json");
+    $resp = '{"ResultCode":0,"ResultDesc":"Validation passed successfully"}';
+    //read incoming request
+    $postData = file_get_contents('php://input');
+    $filePath = "\messages.log";
+    //error log
+    $errorLog = "\errors.log";
+    //Parse payload to json
+    $jdata = json_decode($postData,true);
+    //perform business operations here
+		$transtype=$jdata->TransactionType;
+		$transID=$jdata->TransID;
+		$TransTime=$jdata->TransTime;
+		$TransAmount=$jdata->TransAmount;
+		$BusinessShortCode=$jdata->BusinessShortCode;
+		$BillRefNumber=$jdata->BillRefNumber;
+		$InvoiceNumber=$jdata->InvoiceNumber;
+		$OrgAccountBalance=$jdata->OrgAccountBalance;
+		$ThirdPartyTransID=$jdata->ThirdPartyTransID;
+		$MSISDN=$jdata->MSISDN;
+		$FirstName=$jdata->FirstName;
+		$MiddleName=$jdata->MiddleName;
+		$LastName=$jdata->LastName;
+		
+	$servername = 'localhost';
+	$username = 'root';
+	$password = '@Wadausita1';
+	$dbname = 'radius';
+
+$con = mysqli_connect($servername, $username, $password, $dbname);
+
+if (!$con) 
+{
+die("Connection failed: " . mysqli_connect_error());
+}
+
+
+$sqli = "SELECT * FROM userbillinfo WHERE account ='$BillRefNumber'";
+$result = mysqli_query($con, $sqli);
+
+if($result){
+	echo $resp;
+}
+											
+    //open text file for logging messages by appending
+    $file = fopen($filePath,"a");
+    //log incoming request
+    fwrite($file, $postData);
+    fwrite($file,"\r\n");
+} catch (Exception $ex){
+    //append exception to file
+    $logErr = fopen($errorLog,"a");
+    fwrite($logErr, $ex->getMessage());
+    fwrite($logErr,"\r\n");
+    fclose($logErr);
+    //set failure response
+    $resp = '{"ResultCode": 1, "ResultDesc":"Validation failure due to internal service error"}';
+}
+    //log response and close file
+    fwrite($file,$resp);
+    fclose($file);
+    //echo response
+    echo $resp;
+?>

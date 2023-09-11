@@ -1,0 +1,4 @@
+<?php 
+
+$sitename= "Christa Networks";
+?>
