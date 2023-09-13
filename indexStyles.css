@@ -1,0 +1,148 @@
+/* Navigation Bar Styles */
+.navbar {
+    background-color: #007BFF; /* Change the background color of the navbar */
+    padding: 15px 0; /* Add some padding to the top and bottom of the navbar */
+    border-bottom: 3px solid #0056b3; /* Add a subtle border at the bottom */
+}
+
+.navbar-brand {
+    color: #fff; /* Set the color of the brand text */
+    font-weight: bold; /* Make the brand text bold */
+}
+
+.navbar-toggler-icon {
+    background-color: #fff; /* Set the color of the navbar toggle icon */
+}
+
+.navbar-nav .nav-link {
+    color: #fff; /* Set the color of the navigation links */
+    font-weight: bold; /* Make the navigation links bold */
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #0056b3; /* Change the background color of the links on hover */
+    color: #fff; /* Change the color of the links on hover */
+    border: none; /* Remove the border */
+    border-radius: 5px; /* Add a subtle border radius on hover */
+}
+.navbar-nav .nav-link:hover a {
+    color: #fff; /* Change the color of the links on hover */
+    font-weight: bold; /* Make the navigation links bold */
+}
+
+/* Header Styles */
+header {
+    background-image: url('header-background.jpg'); /* Add a background image to the header */
+    background-size: cover; /* Cover the entire header with the background image */
+    background-position: center; /* Center the background image */
+    color: #fff; /* Set the text color to white */
+    text-align: center; /* Center-align the text */
+    padding: 20px 0; /* Add padding to the top and bottom of the header */
+}
+
+header h1 {
+    font-size: 2.5rem; /* Increase the font size of the header title */
+    margin-bottom: 20px; /* Add space below the header title */
+}
+
+header p {
+    font-size: 1.2rem; /* Increase the font size of the header description */
+}
+
+/* "Why Choose ChristaNetworks?" Section Styles */
+#why-choose {
+    background-color: #f5f5f5; /* Set the background color of the section */
+    padding: 50px 0; /* Add padding to the top and bottom of the section */
+}
+
+#why-choose h2 {
+    color: #007BFF; /* Set the section title color */
+}
+
+#why-choose ul {
+    list-style: none; /* Remove default list styles */
+    padding-left: 0; /* Remove default left padding for the list */
+}
+
+#why-choose ul li {
+    margin-bottom: 15px; /* Add space between list items */
+}
+
+/* "Our Services" Section Styles */
+#our-services {
+    padding: 50px 0; /* Add padding to the top and bottom of the section */
+}
+
+#our-services h2 {
+    color: #007BFF; /* Set the section title color */
+}
+
+.card {
+    border: none; /* Remove borders from cards */
+    margin-bottom: 30px; /* Add space between cards */
+}
+
+.card-title {
+    font-weight: bold; /* Make card titles bold */
+}
+
+/* "Join the ChristaNetworks Family Today!" Section Styles */
+#cta {
+    background-color: #007BFF; /* Set the background color of the section */
+    color: #fff; /* Set text color to white */
+    padding: 50px 0; /* Add padding to the top and bottom of the section */
+    text-align: center; /* Center-align the text */
+}
+
+#cta h2 {
+    font-weight: bold; /* Make the section title bold */
+}
+
+#cta p {
+    font-size: 1.2rem; /* Increase the font size of the text */
+    margin-bottom: 20px; /* Add space below the text */
+}
+
+.btn-primary {
+    background-color: #fff; /* Set button background color */
+    color: #007BFF; /* Set button text color */
+    border: none; /* Remove button border */
+    padding: 10px 20px; /* Add padding to the button */
+    font-weight: bold; /* Make the button text bold */
+    text-transform: uppercase; /* Convert button text to uppercase */
+    transition: background-color 0.3s, color 0.3s; /* Add a smooth transition effect */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Change button background color on hover */
+    color: #fff; /* Change button text color on hover */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333; /* Set the background color of the footer */
+    color: #fff; /* Set text color to white */
+    padding: 50px 0; /* Add padding to the top and bottom of the footer */
+}
+
+footer h4 {
+    color: #007BFF; /* Set footer heading color */
+}
+
+footer ul {
+    list-style: none; /* Remove default list styles */
+    padding-left: 0; /* Remove default left padding for the list */
+}
+
+footer ul li {
+    margin-bottom: 10px; /* Add space between list items */
+}
+
+footer a {
+    color: #fff; /* Set link text color */
+    text-decoration: none; /* Remove underlines from links */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Add underline on link hover */
+}
