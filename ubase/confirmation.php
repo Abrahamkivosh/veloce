@@ -165,7 +165,7 @@ if ($transamount > $plancost) {
 
     $new_amount = ($transamount + $balance);
 
-    if ($new_amount > $plancost) {
+    if ($new_amount >= $plancost) {
 
         $new_balance = $new_amount - $plancost;
 
@@ -175,21 +175,13 @@ if ($transamount > $plancost) {
         $result13 = mysqli_query($con, $sqli8);
         $smsService->confirmationOfPayment($fnumb, $newdate, $new_balance);
 
-    } else if ($new_amount < $plancost) {
+    } else  {
         $diff = $plancost - $new_amount;
         $sqli9 = "UPDATE userbillinfo SET balance='$new_amount' WHERE username='$username'";
         $result14 = mysqli_query($con, $sqli9);
 
         $smsService->lessBalanceNotice($fnumb, $fullname, $account, $new_amount, $diff);
-    } else {
-        $sqli10 = "UPDATE radcheck SET value='$newdate' WHERE ((attribute='Expiration')&&(username='$username'))";
-        $result15 = mysqli_query($con, $sqli10);
-        $new_balance = ($transamount - $balance);
-        $sqli8 = "UPDATE userbillinfo SET balance='$new_balance' WHERE username='$username'";
-        $result13 = mysqli_query($con, $sqli8);
-
-        $smsService->confirmationOfPayment($fnumb, $newdate, $new_balance);
-    }
+    } 
 
 } else {
     $sqli11 = "UPDATE radcheck SET value='$newdate' WHERE ((attribute='Expiration')&&(username='$username'))";

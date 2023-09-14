@@ -1,6 +1,6 @@
 <?php
 // import read env file
-require_once __DIR__ . '/read_env_file.php';
+require_once  '../cpanel/library/read_env_file.php';
 
 
 class smsService {
@@ -56,6 +56,8 @@ class smsService {
         access your online portal use  https://www.christanetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
+        print_r($message);
+        exit(   );
         $this->sendSms();
     }
 
@@ -76,6 +78,7 @@ class smsService {
         $message = "Dear $fullName, Your account $accountNumber is less by KES $lessAmount to renew your subscription. Your balance is KES $balance.";
         $this->setPhone($phone);
         $this->setText($message);
+      
         $this->sendSms();
     }
 
