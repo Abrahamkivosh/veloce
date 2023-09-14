@@ -21,16 +21,22 @@
  *              Mon Mar 28 22:55:00 EDT 2011
  *********************************************************************************************************
  */
+// show all errors
+
+
+// import read env file
+require_once "../../library/read_env_file.php";
+
 
 
 $configValues['DALORADIUS_VERSION'] = '1.0-0';
 $configValues['FREERADIUS_VERSION'] = '2';
 $configValues['CONFIG_DB_ENGINE'] = 'mysqli';
-$configValues['CONFIG_DB_HOST'] = 'localhost';
-$configValues['CONFIG_DB_PORT'] = '3306';
-$configValues['CONFIG_DB_USER'] = 'root';
-$configValues['CONFIG_DB_PASS'] = '@christanetworks7879';
-$configValues['CONFIG_DB_NAME'] = 'radius';
+$configValues['CONFIG_DB_HOST'] = getenv('DATABASE_HOST');
+$configValues['CONFIG_DB_PORT'] = getenv('DATABASE_PORT');
+$configValues['CONFIG_DB_USER'] = getenv('DATABASE_USER');
+$configValues['CONFIG_DB_PASS'] = getenv('DATABASE_PASSWORD');
+$configValues['CONFIG_DB_NAME'] = getenv('DATABASE_NAME');
 $configValues['CONFIG_DB_TBL_RADCHECK'] = 'radcheck';
 $configValues['CONFIG_DB_TBL_RADREPLY'] = 'radreply';
 $configValues['CONFIG_DB_TBL_RADGROUPREPLY'] = 'radgroupreply';
@@ -84,5 +90,6 @@ $configValues['CONFIG_MAINT_TEST_USER_RADIUSSERVER'] = '127.0.0.1';
 $configValues['CONFIG_MAINT_TEST_USER_RADIUSPORT'] = '1812';
 $configValues['CONFIG_MAINT_TEST_USER_NASPORT'] = '0';
 $configValues['CONFIG_MAINT_TEST_USER_RADIUSSECRET'] = 'testing123';
+
 
 ?>

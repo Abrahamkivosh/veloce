@@ -1,18 +1,22 @@
 <?php
 
 // show all errors
-// error_reporting(E_ALL);
-// ini_set('display_errors', '1');
-// ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+
+// read from .env file 
+require_once __DIR__ . '/read_env_file.php';
+
 
 $configValues['DALORADIUS_VERSION'] = '1.1-0';
 $configValues['FREERADIUS_VERSION'] = '2';
 $configValues['CONFIG_DB_ENGINE'] = 'mysqli';
-$configValues['CONFIG_DB_HOST'] = 'localhost';
-$configValues['CONFIG_DB_PORT'] = '3306';
-$configValues['CONFIG_DB_USER'] = 'root';
-$configValues['CONFIG_DB_PASS'] = '@christanetworks7879';
-$configValues['CONFIG_DB_NAME'] = 'radius';
+$configValues['CONFIG_DB_HOST'] = getenv('DATABASE_HOST');
+$configValues['CONFIG_DB_PORT'] = getenv('DATABASE_PORT');
+$configValues['CONFIG_DB_USER'] = getenv('DATABASE_USER');
+$configValues['CONFIG_DB_PASS'] = getenv('DATABASE_PASSWORD');
+$configValues['CONFIG_DB_NAME'] = getenv('DATABASE_NAME');
 $configValues['CONFIG_DB_TBL_RADCHECK'] = 'radcheck';
 $configValues['CONFIG_DB_TBL_RADREPLY'] = 'radreply';
 $configValues['CONFIG_DB_TBL_RADGROUPREPLY'] = 'radgroupreply';
@@ -80,6 +84,7 @@ $configValues['CONFIG_INVOICE_ITEM_TEMPLATE'] = 'invoice_item_template.html';
 $configValues['PAYBILL_NUMBER'] = '4043919';
 $configValues['CONFIG_DASHBOARD_DALO_MERCHANT'] = 'Christa Networks Limited';
 $configValues['BASE_URL'] = 'https://christanetworks.co.ke/';
+
 
 
 // set the default timezone to use. Available since PHP 5.1

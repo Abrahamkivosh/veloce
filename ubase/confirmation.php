@@ -73,15 +73,18 @@ VALUES
 '$orgaccountbalance'
 )";
 
-$sqlis = "SELECT username FROM userinfo WHERE account = '$billrefno'";
+$sqlis = "SELECT account,username,firstname,lastname FROM userinfo WHERE account = '$billrefno'";
 $resulte = mysqli_query($con, $sqlis);
-while ($row = mysqli_fetch_array($resulte)) {
+$fullname = "";
+$username = "";
+// return $resulte;
+while ($row = mysqli_fetch_array($resulte, MYSQLI_ASSOC )) {
     # code...
     $username = ($row['username']);
-
-    $fullname = ($row['firstname'] . " " . $row['lastname'] );
-
+    $fullname = ($row['firstname'] . " " . $row['lastname']);
 }
+
+
 
 $sq = "SELECT * FROM userbillinfo WHERE username = '$username'";
 $result = mysqli_query($con, $sq);

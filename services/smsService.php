@@ -1,13 +1,18 @@
 <?php
+// import read env file
+require_once __DIR__ . '/read_env_file.php';
+
 
 class smsService {
-    private  $fnum, $text;
+    private  $fnum, $text, $text_username, $text_password, $text_issn;
     public function __construct() {
+        $this->text_username = getenv('TEXT_USERNAME');
+        $this->text_password = getenv('TEXT_PASSWORD');
+        $this->text_issn = getenv('TEXT_ISSN');
     }
 
     private function sendSms() {
-      $url =  "https://client.airtouch.co.ke:9012/sms/api/?issn=CHRISTA_NET&msisdn=$this->fnum&text=$this->text&username=christanet&password=100ab9a90f84414410c6f7e0c62a2346";
-    
+        $url = "https://client.airtouch.co.ke:9012/sms/api/?issn=$this->text_issn&msisdn=$this->fnum&text=$this->text&username=$this->text_username&password=$this->text_password";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
