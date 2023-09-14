@@ -1,27 +1,9 @@
 <?php
-/*
- *********************************************************************************************************
- * daloRADIUS - RADIUS Web Platform
- * Copyright (C) 2007 - Liran Tal <liran@enginx.com> All Rights Reserved.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- *********************************************************************************************************
- * Description:
- *              daloRADIUS Configuration File
- *
- * Modification Date:
- *              Wed Jan 20 15:09:52 CAT 2021
- *********************************************************************************************************
- */
 
+// show all errors
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
 
 $configValues['DALORADIUS_VERSION'] = '1.1-0';
 $configValues['FREERADIUS_VERSION'] = '2';
@@ -99,6 +81,7 @@ $configValues['PAYBILL_NUMBER'] = '4043919';
 $configValues['CONFIG_DASHBOARD_DALO_MERCHANT'] = 'Christa Networks Limited';
 $configValues['BASE_URL'] = 'https://christanetworks.co.ke/';
 
+
 // set the default timezone to use. Available since PHP 5.1
 date_default_timezone_set('Africa/Nairobi');
 
@@ -108,12 +91,3 @@ ini_set('default_charset', 'UTF-8');
 // set the default locale to use. Available since PHP 4.3
 setlocale(LC_ALL, 'en_US.UTF-8');
 
-// set the default language to use. Available since PHP 4.3
-putenv('LANG=en_US.UTF-8');
-
-
-
-// show all errors
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');

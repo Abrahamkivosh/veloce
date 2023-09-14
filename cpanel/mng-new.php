@@ -32,150 +32,172 @@
 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 <script type="text/javascript" src="library/javascript/ajax.js"></script>
 <script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
+<style>
+	.alert {
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  width: 80%;
+  text-align: center;
+  height: auto ;
+  font-size: 20px;
+  position: relative;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+
+
+}
+
+/* Success alert style */
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+/* Danger alert style */
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+	</style>
+
 </head>
 
 <body class="form-v10">
 <?php
- include ("library/checklogin.php");
- $operator = $_SESSION['operator_user'];
-	 
- include_once('library/config_read.php');
- $log = "visited page: ";
-	require('db.php');
-	include_once ("library/tabber/tab-layout.php");
-	include ("menu-mng-users.php");
+include "library/checklogin.php";
+$operator = $_SESSION['operator_user'];
 
-	include_once ("../services/smsService.php");
+include_once 'library/config_read.php';
+$log = "visited page: ";
+require 'db.php';
+include_once "library/tabber/tab-layout.php";
+include "menu-mng-users.php";
 
-	$smsService = new smsService();
+include_once "../services/smsService.php";
 
-	
-	
-	
-    // If form submitted, insert values into the database.
-    if (isset($_REQUEST['username'])){
-		$username = stripslashes($_REQUEST['username']); // removes backslashes
-		$username = mysqli_real_escape_string($con,$username); //escapes special characters in a string
-		$email = stripslashes($_REQUEST['email']);
-		$email = mysqli_real_escape_string($con,$email);
-		$password = stripslashes($_REQUEST['password']);
-		$password = mysqli_real_escape_string($con,$password);
-		$building = stripslashes($_REQUEST['building']);
-		$building = mysqli_real_escape_string($con,$building);
-		$country = stripslashes($_REQUEST['country']);
-		$country = mysqli_real_escape_string($con,$country);
-		$area = stripslashes($_REQUEST['area']);
-		$area = mysqli_real_escape_string($con,$area);
-		$location = stripslashes($_REQUEST['location']);
-		$location = mysqli_real_escape_string($con,$location);
-		$mobilephone = stripslashes($_REQUEST['mobilephone']);
-		$mobilephone = mysqli_real_escape_string($con,$mobilephone);
-		$firstname = stripslashes($_REQUEST['firstname']);
-		$firstname = mysqli_real_escape_string($con,$firstname);
-		$lastname = stripslashes($_REQUEST['lastname']);
-		$lastname = mysqli_real_escape_string($con,$lastname);
-		$planName = stripslashes($_REQUEST['planName']);
-		$planName = mysqli_real_escape_string($con,$planName);
-		$lastbill = date("Y-m-d H:i:s");
-		$nextbill = $nextbill = date("Y-m-d H:i:s", strtotime("+30 days"));
-		$enabled = 1;
-		$ckey = md5(uniqid(rand(), true));
-		$ctime = time();
-		$todate = date("d M Y H:i:s",$ctime);
-		$mng_hs_usr = md5(uniqid(rand(), true));
-		$update = date("Y-m-d H:i:s");
-		$trn_date = date("Y-m-d H:i:s");
-		$updated_by = "Christa Networks Web Portal";
-		$created_by = "Christa Networks Web Portal";
-		$pppoepass = $username."christa";
-		$init = 1000;
-		
-		
-		$sql6 = "SELECT id, account FROM userinfo ORDER BY id DESC LIMIT 1";
-		$resul6 = mysqli_query($con, $sql6);
-		if(mysqli_num_rows($resul6)>0){
-		
-		while ($row = mysqli_fetch_array($resul6)){
-											# code...
-					$curracc = ($row['account']);
-					$accounew = ($curracc + 1);
-											
-		}
-		}else{
-					$curracc = 1000;
-					$accounew = ($curracc + 1);
-		}
-		
-		$fullName = $firstname." ".$lastname;
+$smsService = new smsService();
+$smsg = null;
+$fmsg = "<strong>User Registration Failed</strong> :Duplicate information!";
 
-		$firstchar = $mobilephone[0];
-		if($firstchar=="0"){
-			$newnum = substr($mobilephone, 1);
-			 $fnumb = "+254".$newnum;
-			 $fnum = "254".$newnum;
-		}else{
-				 $fnumb = substr($mobilephone, 1);
-				 $fnum = $fnumb;
-		}	
-	
-		$smsService->welcomeSMS($fnum, $fullName, $accounew, $planName, $username, $password);
-		
-		
-		$query = "INSERT into `userinfo` (enableportallogin, firstname, lastname, username, portalloginpassword, email, mobilephone, creationdate, creationby, updatedate, updateby, ckey, ctime, mng_hs_usr, account) VALUES ('$enabled', '$firstname', '$lastname', '$username', '".md5($password)."', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$ckey', '$ctime', '$mng_hs_usr', '$accounew')";
-		
-		$query2 = "INSERT into `userbillinfo` (username, planName, email, phone, creationdate, creationby, updatedate, updateby, lastbill, nextbill, mng_hs_usr, account, area, location, building, country) VALUES ('$username', '$planName', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$lastbill', '$nextbill', '$mng_hs_usr', '$accounew', '$area', '$location', '$building', '$country')";
-		
-		$query3 = "INSERT into `radusergroup` (username, groupname, priority) VALUES ('$username', '$planName', '0')";
-		
-		$query4 = "INSERT into `radcheck` (username, attribute, op, value) 
-					VALUES ('$username', 'Cleartext-Password', ':=', '$password')";
-		$query5 = "INSERT into `radcheck` (username, attribute, op, value) 
-					VALUES ('$username', 'Expiration', ':=', '$todate')";
-		$query6 = "INSERT into `radcheck` (username, attribute, op, value) 
-					VALUES ('$username', 'Simultaneous-Use', ':=', '1')";
-		
-		
-								
-		$check=mysqli_query($con,"select * from userinfo where username='$username'");
-		$check2 = mysqli_query($con,"select * from radcheck where username='$username'");
-		$check3=mysqli_query($con,"select * from userbillinfo where username='$username'");
-		$check4 = mysqli_query($con,"select * from radusergroup where username='$username'");
-		$checkrows2 = mysqli_num_rows($check2);
-		$checkrows=mysqli_num_rows($check);
-		$checkrows3=mysqli_num_rows($check3);
-		$checkrows4=mysqli_num_rows($check4);
-								
-							if($checkrows>0){
-								echo "</br></br>&nbsp&nbsp<h2>Duplicate information!</h2>";
-							}else if($checkrows2>0){
-								echo "</br></br>&nbsp&nbsp<h2>Duplicate information!</h2>";
-							}else if($checkrows3>0){
-								echo "</br></br>&nbsp&nbsp<h2>Duplicate information!</h2>";
-							}else if($checkrows4>0){
-								echo "</br></br>&nbsp&nbsp<h2>Duplicate information!</h2>";
-							}else{
-								$result = mysqli_query($con,$query);
-								$result2 = mysqli_query($con,$query2);
-								$result3 = mysqli_query($con,$query3);
-								$result4 = mysqli_query($con,$query4);
-								$result5 = mysqli_query($con,$query5);
-								$result6 = mysqli_query($con,$query6);
-								
-							}
-				
-        if($result && $result2 && $result3 && $result4 && $result5 && $result6){
-		
-			
-            echo "</br></br>&nbsp&nbsp<h2>Success!</h2>";
+// If form submitted, insert values into the database. and is post request
+if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_POST["submit"])) {
+    $username = stripslashes($_REQUEST['username']); // removes backslashes
+    $username = mysqli_real_escape_string($con, $username); //escapes special characters in a string
+    $email = stripslashes($_REQUEST['email']);
+    $email = mysqli_real_escape_string($con, $email);
+    $password = stripslashes($_REQUEST['password']);
+    $password = mysqli_real_escape_string($con, $password);
+    $building = stripslashes($_REQUEST['building']);
+    $building = mysqli_real_escape_string($con, $building);
+    $country = stripslashes($_REQUEST['country']);
+    $country = mysqli_real_escape_string($con, $country);
+    $area = stripslashes($_REQUEST['area']);
+    $area = mysqli_real_escape_string($con, $area);
+    $location = stripslashes($_REQUEST['location']);
+    $location = mysqli_real_escape_string($con, $location);
+    $mobilephone = stripslashes($_REQUEST['mobilephone']);
+    $mobilephone = mysqli_real_escape_string($con, $mobilephone);
+    $firstname = stripslashes($_REQUEST['firstname']);
+    $firstname = mysqli_real_escape_string($con, $firstname);
+    $lastname = stripslashes($_REQUEST['lastname']);
+    $lastname = mysqli_real_escape_string($con, $lastname);
+    $planName = stripslashes($_REQUEST['planName']);
+    $planName = mysqli_real_escape_string($con, $planName);
+    $lastbill = date("Y-m-d H:i:s");
+    $nextbill = $nextbill = date("Y-m-d H:i:s", strtotime("+30 days"));
+    $enabled = 1;
+    $ckey = md5(uniqid(rand(), true));
+    $ctime = time();
+    $todate = date("d M Y H:i:s", $ctime);
+    $mng_hs_usr = md5(uniqid(rand(), true));
+    $update = date("Y-m-d H:i:s");
+    $trn_date = date("Y-m-d H:i:s");
+    $updated_by = "Christa Networks Web Portal";
+    $created_by = "Christa Networks Web Portal";
+    $pppoepass = $username . "christa";
+    $init = 1000;
+
+    $sql6 = "SELECT id, account FROM userinfo ORDER BY id DESC LIMIT 1";
+    $resul6 = mysqli_query($con, $sql6);
+    if (mysqli_num_rows($resul6) > 0) {
+
+        while ($row = mysqli_fetch_array($resul6)) {
+            # code...
+            $curracc = ($row['account']);
+            $accounew = ($curracc + 1);
+
         }
-    }else{
-	
+    } else {
+        $curracc = 1000;
+        $accounew = ($curracc + 1);
+    }
+
+    $fullName = $firstname . " " . $lastname;
+
+    $firstchar = $mobilephone[0];
+    if ($firstchar == "0") {
+        $newnum = substr($mobilephone, 1);
+        $fnumb = "254" . $newnum;
+        $fnum = "254" . $newnum;
+    } else {
+        $fnumb = substr($mobilephone, 1);
+        $fnum = $fnumb;
+    }
+
+    $smsService->welcomeSMS($fnum, $fullName, $accounew, $planName, $username, $password);
+
+    $query = "INSERT into `userinfo` (enableportallogin, firstname, lastname, username, portalloginpassword, email, mobilephone, creationdate, creationby, updatedate, updateby, ckey, ctime, mng_hs_usr, account) VALUES ('$enabled', '$firstname', '$lastname', '$username', '" . md5($password) . "', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$ckey', '$ctime', '$mng_hs_usr', '$accounew')";
+
+    $query2 = "INSERT into `userbillinfo` (username, planName, email, phone, creationdate, creationby, updatedate, updateby, lastbill, nextbill, mng_hs_usr, account, area, location, building, country) VALUES ('$username', '$planName', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$lastbill', '$nextbill', '$mng_hs_usr', '$accounew', '$area', '$location', '$building', '$country')";
+
+    $query3 = "INSERT into `radusergroup` (username, groupname, priority) VALUES ('$username', '$planName', '0')";
+
+    $query4 = "INSERT into `radcheck` (username, attribute, op, value)
+					VALUES ('$username', 'Cleartext-Password', ':=', '$password')";
+    $query5 = "INSERT into `radcheck` (username, attribute, op, value)
+					VALUES ('$username', 'Expiration', ':=', '$todate')";
+    $query6 = "INSERT into `radcheck` (username, attribute, op, value)
+					VALUES ('$username', 'Simultaneous-Use', ':=', '1')";
+
+    $check = mysqli_query($con, "select * from userinfo where username='$username'");
+    $check2 = mysqli_query($con, "select * from radcheck where username='$username'");
+    $check3 = mysqli_query($con, "select * from userbillinfo where username='$username'");
+    $check4 = mysqli_query($con, "select * from radusergroup where username='$username'");
+    $checkrows2 = mysqli_num_rows($check2);
+    $checkrows = mysqli_num_rows($check);
+    $checkrows3 = mysqli_num_rows($check3);
+    $checkrows4 = mysqli_num_rows($check4);
+
+    if ($checkrows > 0 || $checkrows2 > 0 || $checkrows3 > 0 || $checkrows4 > 0) {
+        $fmsg = "User Registration Failed </br></br>&nbsp&nbsp<h2>Duplicate information!</h2>";
+    } else {
+        $result = mysqli_query($con, $query);
+        $result2 = mysqli_query($con, $query2);
+        $result3 = mysqli_query($con, $query3);
+        $result4 = mysqli_query($con, $query4);
+        $result5 = mysqli_query($con, $query5);
+        $result6 = mysqli_query($con, $query6);
+
+    }
+
+    if ($result && $result2 && $result3 && $result4 && $result5 && $result6) {
+
+        $smsg = "User Created Successfully.";
+    } else {
+        $fmsg = "User Registration Failed";
+    }
+}
 ?>
     <div id="contentnorightbar">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
-        
+
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -184,7 +206,23 @@
         <!-- ============================================================== -->
         <div>
 		<div class="form-v10-content">
-                
+			<!-- success message -->
+
+			<?php if (isset($smsg)) {?>
+				<div class="alert alert-success" role="alert">
+					Hello world Of test
+					<?php echo $smsg; ?> </div>
+			<?php }?>
+
+			<!-- error message -->
+			<?php if (isset($fmsg)) {?>
+				<div class="alert alert-danger" role="alert">
+					<?php echo $fmsg; ?> </div>
+			<?php }?>
+
+
+
+
 				<form autocomplete="off" class="form-detail" action="#" method="post" id="myform">
 				<div class="form-left">
 					<h2>General Infomation</h2>
@@ -193,13 +231,13 @@
 						    <option class="option" value="title">Select your plan</option>
 							<?php
 $sqli = "SELECT * FROM billing_plans ORDER BY id ASC";
-										$result2 = mysqli_query($con, $sqli);
-											while ($row = mysqli_fetch_array($result2)) {
-											# code...
-											echo ('<option>'.$row['planName'].'</option>');
-										}
-										?>
-						    
+$result2 = mysqli_query($con, $sqli);
+while ($row = mysqli_fetch_array($result2)) {
+    # code...
+    echo ('<option>' . $row['planName'] . '</option>');
+}
+?>
+
 						</select>
 						<span class="select-btn">
 						  	<i class="zmdi zmdi-chevron-down"></i>
@@ -213,14 +251,14 @@ $sqli = "SELECT * FROM billing_plans ORDER BY id ASC";
 							<input type="text" name="lastname" id="last_name" class="input-text" placeholder="Last Name" required>
 						</div>
 					</div>
-					
+
 					<div class="form-row">
 						<input type="text" name="building" class="company" id="company" placeholder="Building/APT" >
 					</div>
 					<div class="form-row">
 						<input type="text" name="area" class="area" id="area" placeholder="Area" >
 					</div>
-					
+
 					<div class="form-group">
 						<div class="form-row form-row-3">
 							<input type="text" name="username" class="business" id="business" placeholder="Username" required>
@@ -231,7 +269,7 @@ $sqli = "SELECT * FROM billing_plans ORDER BY id ASC";
 							  	<i class="iconify" onclick="myFunction()" data-icon="zmdi:eye" data-inline="false"></i>
 							</span>
 						</div>
-						
+
 					</div>
 				</div>
 				<div class="form-right">
@@ -240,27 +278,27 @@ $sqli = "SELECT * FROM billing_plans ORDER BY id ASC";
 						<input type="text" name="location" class="street" id="demo" placeholder="Geolocation" required onfocus="getLocation()">
 					</div>
 						<div class="form-group">
-						
-						
+
+
 					</div>
 					<div class="form-row">
 						<select name="country">
 						    <option value="country">Country</option>
 														<?php
 $sqli = "SELECT * FROM country ORDER BY id ASC";
-										$result2 = mysqli_query($con, $sqli);
-											while ($row = mysqli_fetch_array($result2)) {
-											# code...
-											echo ('<option>'.$row['name'].'</option>');
-										}
-										?>
-						    
+$result2 = mysqli_query($con, $sqli);
+while ($row = mysqli_fetch_array($result2)) {
+    # code...
+    echo ('<option>' . $row['name'] . '</option>');
+}
+?>
+
 						</select>
 						<span class="select-btn">
 						  	<i class="zmdi zmdi-chevron-down"></i>
 						</span>
 					</div>
-					
+
 					<div class="form-row">
 						<input type="text" name="email" id="your_email" class="input-text" placeholder="Email">
 					</div>
@@ -269,17 +307,17 @@ $sqli = "SELECT * FROM country ORDER BY id ASC";
 						<span class="highlight"></span>
 						<span class="bar"></span>
 					</div>
-					
+
 					<div class="form-row-last">
 						<input type="submit" name="submit" class="register" value="Register">
 					</div>
 				</div>
 			</form>
-                    
+
                     <!-- Form -->
-                    
-					
-                
+
+
+
             </div>
         </div>
         <!-- ============================================================== -->
@@ -314,7 +352,7 @@ var x = document.getElementById("demo");
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
-  } else { 
+  } else {
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
 }
@@ -341,7 +379,7 @@ function showPosition(position) {
     $('[data-toggle="tooltip"]').tooltip();
     $(".preloader").fadeOut();
     </script>
-	<?php } ?>
+
 <?php mysqli_close($con);?>
 </body>
 

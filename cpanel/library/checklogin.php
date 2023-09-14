@@ -27,8 +27,9 @@ function session_verify() {
 	session_start();
 
 	$REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
-	if (substr(md5($REMOTE_ADDR), 0, 10+substr(session_id(), 0, 1)) == 
-		substr(session_id(), 1, 10+substr(session_id(), 0, 1))) {
+	$sessionCount = intval(substr(session_id(), 0, 1));
+	if (substr(md5($REMOTE_ADDR), 0, 10+ $sessionCount  ) == 
+		substr(session_id(), 1, 10+ $sessionCount )) {
 		$session_valid="yes";
 	} else {
 		$session_valid="no";

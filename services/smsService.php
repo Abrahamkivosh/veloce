@@ -66,7 +66,7 @@ class smsService {
     /**
      * Send When balance is less than  required amount to renew subscription
      */
-    public function lessBalanceNotice($phone, $fullName, $accountNumber, $package,$balance, $lessAmount)
+    public function lessBalanceNotice($phone, $fullName, $accountNumber, $balance, $lessAmount)
     {
         $message = "Dear $fullName, Your account $accountNumber is less by KES $lessAmount to renew your subscription. Your balance is KES $balance.";
         $this->setPhone($phone);

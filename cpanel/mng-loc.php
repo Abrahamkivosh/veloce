@@ -15,27 +15,29 @@
  *
  *********************************************************************************************************
  *
- * Authors:	Liran Tal <liran@enginx.com>
+ * Authors:    Liran Tal <liran@enginx.com>
  *
  *********************************************************************************************************
  */
- 
-    include ("library/checklogin.php");
-    $operator = $_SESSION['operator_user'];
 
-	include('library/check_operator_perm.php');
+include "library/checklogin.php";
+$operator = $_SESSION['operator_user'];
 
-	// set session's page variable
-	$_SESSION['PREV_LIST_PAGE'] = $_SERVER['REQUEST_URI'];
-	
+include 'library/check_operator_perm.php';
 
-	//setting values for the order by and order type variables
-	isset($_REQUEST['orderBy']) ? $orderBy = $_REQUEST['orderBy'] : $orderBy = "id";
-	isset($_REQUEST['orderType']) ? $orderType = $_REQUEST['orderType'] : $orderType = "asc";
-	
-	include_once('library/config_read.php');
-    $log = "visited page: ";
-    $logQuery = "performed query for listing of records on page: ";
+// include db connection file
+require_once "db.php";
+
+// set session's page variable
+$_SESSION['PREV_LIST_PAGE'] = $_SERVER['REQUEST_URI'];
+
+//setting values for the order by and order type variables
+isset($_REQUEST['orderBy']) ? $orderBy = $_REQUEST['orderBy'] : $orderBy = "id";
+isset($_REQUEST['orderType']) ? $orderType = $_REQUEST['orderType'] : $orderType = "asc";
+
+include_once 'library/config_read.php';
+$log = "visited page: ";
+$logQuery = "performed query for listing of records on page: ";
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -63,40 +65,40 @@
 
 <?php
 
-    include ("menu-mng-users.php");
+include "menu-mng-users.php";
 
 ?>
     <?php
 
-        if (isset($_GET['pageno'])) {
-            $pageno = $_GET['pageno'];
-        } else {
-            $pageno = 1;
-        }
-        $no_of_records_per_page = 20;
-        $offset = ($pageno-1) * $no_of_records_per_page;
+if (isset($_GET['pageno'])) {
+    $pageno = $_GET['pageno'];
+} else {
+    $pageno = 1;
+}
+$no_of_records_per_page = 20;
+$offset = ($pageno - 1) * $no_of_records_per_page;
 
-        
+$total_pages_sql = "SELECT COUNT(*) FROM userbillinfo";
+$result = mysqli_query($con, $total_pages_sql);
+$total_rows = mysqli_fetch_array($result)[0];
+// print_r($total_rows);
+// exit();
+$total_pages = ceil($total_rows / $no_of_records_per_page);
 
-        $total_pages_sql = "SELECT COUNT(*) FROM table";
-        $result = mysqli_query($conn,$total_pages_sql);
-        $total_rows = mysqli_fetch_array($result)[0];
-        $total_pages = ceil($total_rows / $no_of_records_per_page);
+$sql = "SELECT * FROM userbillinfo LIMIT $offset, $no_of_records_per_page";
+$res_data = mysqli_query($con, $sql);
+while ($row = mysqli_fetch_array($res_data)) {
+    //here goes the data
+}
 
-        $sql = "SELECT * FROM table LIMIT $offset, $no_of_records_per_page";
-        $res_data = mysqli_query($conn,$sql);
-        while($row = mysqli_fetch_array($res_data)){
-            //here goes the data
-        }
-       
-    ?>
+?>
 
 		<div id="contentnorightbar">
-		
-				
-				
+
+
+
                 <div id="helpPage" style="display:none;visibility:visible" >
-					<?php echo t('helpPage','mnglistall') ?>
+					<?php echo t('helpPage', 'mnglistall') ?>
 					<br/>
 				</div>
 					<div id="returnMessages">
@@ -105,53 +107,44 @@
 
 <?php
 
-	
-	require('db.php');
-			// must be included after opendb because it needs to read the CONFIG_IFACE_TABLES_LISTING variable from the config file
+// must be included after opendb because it needs to read the CONFIG_IFACE_TABLES_LISTING variable from the config file
 
+// setup php session variables for exporting
+$_SESSION['reportTable'] = $configValues['CONFIG_DB_TBL_RADCHECK'];
+$_SESSION['reportQuery'] = " WHERE UserName LIKE '%'";
+$_SESSION['reportType'] = "usernameListGeneric";
 
-        // setup php session variables for exporting
-        $_SESSION['reportTable'] = $configValues['CONFIG_DB_TBL_RADCHECK'];
-        $_SESSION['reportQuery'] = " WHERE UserName LIKE '%'";
-        $_SESSION['reportType'] = "usernameListGeneric";
+//    $query
 
-	$orderBy = $dbSocket->escapeSimple($orderBy);
-	$orderType = $dbSocket->escapeSimple($orderType);
-        
-	//orig: used as method to get total rows - this is required for the pages_numbering.php page
-	
+// $orderBy = $dbSocket->escapeSimple($orderBy);
+// $orderType = $dbSocket->escapeSimple($orderType);
 
+//orig: used as method to get total rows - this is required for the pages_numbering.php page
 
-	/* we are searching for both kind of attributes for the password, being User-Password, the more
-	   common one and the other which is Password, this is also done for considerations of backwards
-	   compatibility with version 0.7        */
+/* we are searching for both kind of attributes for the password, being User-Password, the more
+common one and the other which is Password, this is also done for considerations of backwards
+compatibility with version 0.7        */
 
-	$sql = "SELECT userbillinfo.username, userinfo.firstname, userbillinfo.phone, userinfo.lastname, userbillinfo.account, userbillinfo.location, userbillinfo.area, userbillinfo.building, userbillinfo.planName FROM userbillinfo RIGHT JOIN userinfo ON userbillinfo.username=userinfo.username ORDER BY account LIMIT $offset, $no_of_records_per_page";
-	$result = mysqli_query($con, $sql);
-	$logDebugSQL = "";
-	$logDebugSQL .= $sql . "\n";
-	
-     if (isset($_GET['pageno'])) {
-            $pageno = $_GET['pageno'];
-        } else {
-            $pageno = 1;
-        }
-        $no_of_records_per_page = 3;
-        $offset = ($pageno-1) * $no_of_records_per_page;
+$sql = "SELECT userbillinfo.username, userinfo.firstname, userbillinfo.phone, userinfo.lastname, userbillinfo.account, userbillinfo.location, userbillinfo.area, userbillinfo.building, userbillinfo.planName FROM userbillinfo RIGHT JOIN userinfo ON userbillinfo.username=userinfo.username ORDER BY account LIMIT $offset, $no_of_records_per_page";
+$result = mysqli_query($con, $sql);
+$logDebugSQL = "";
+$logDebugSQL .= $sql . "\n";
 
-       
-        $total_pages_sql = "SELECT COUNT(*) FROM userbillinfo";
-        $result2 = mysqli_query($con,$total_pages_sql);
-        $total_rows = mysqli_fetch_array($result2)[0];
-        $total_pages = ceil($total_rows / $no_of_records_per_page);
+if (isset($_GET['pageno'])) {
+    $pageno = $_GET['pageno'];
+} else {
+    $pageno = 1;
+}
+$no_of_records_per_page = 3;
+$offset = ($pageno - 1) * $no_of_records_per_page;
 
-       
-        
-        
-	
+$total_pages_sql = "SELECT COUNT(*) FROM userbillinfo";
+$result2 = mysqli_query($con, $total_pages_sql);
+$total_rows = mysqli_fetch_array($result2)[0];
+$total_pages = ceil($total_rows / $no_of_records_per_page);
 
-	echo "<table>";
-echo"	
+echo "<table>";
+echo "
 <tr>
 <th>Name</th>
 <th>Phone</th>
@@ -162,58 +155,55 @@ echo"
 <th>Plan</th>
 </tr>";
 
+while ($row = mysqli_fetch_array($result)) {
 
+    echo "<tr>";
+    echo "<td>" . ($row['firstname']) . " " . ($row['lastname']) . "</td>";
+    echo "<td>" . $row['phone'] . "</td>";
+    echo "<td>" . $row['account'] . "</td>";
+    echo "<td>" . $row['location'] . "</td>";
+    echo "<td>" . $row['area'] . "</td>";
+    echo "<td>" . $row['building'] . "</td>";
+    echo "<td>" . $row['planName'] . "</td>";
+    echo "</tr>";
 
-	while ($row = mysqli_fetch_array($result)) {
-		
-		echo "<tr>";
-echo "<td>" . ($row['firstname'])." ".($row['lastname']) . "</td>";
-echo "<td>" . $row['phone'] . "</td>";
-echo "<td>" . $row['account'] . "</td>";
-echo "<td>" . $row['location'] . "</td>";
-echo "<td>" . $row['area'] . "</td>";
-echo "<td>" . $row['building'] . "</td>";
-echo "<td>" . $row['planName'] . "</td>";
-echo "</tr>";
-																				
-											
-									}
+}
 
-echo"	
+echo "
 <tr>
 
-</tr>";	
+</tr>";
 echo "</table>";
-	
- mysqli_close($conn);	
+
+mysqli_close($con);
 ?>
 <ul class="pagination">
         <li><a href="?pagesi=1">First</a></li>
-        <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
-            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
+        <li class="<?php if ($pageno <= 1) {echo 'disabled';}?>">
+            <a href="<?php if ($pageno <= 1) {echo '#';} else {echo "?pageno=" . ($pageno - 1);}?>">Prev</a>
         </li>
-        <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
-            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
+        <li class="<?php if ($pageno >= $total_pages) {echo 'disabled';}?>">
+            <a href="<?php if ($pageno >= $total_pages) {echo '#';} else {echo "?pageno=" . ($pageno + 1);}?>">Next</a>
         </li>
         <li><a href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
     </ul>
 
 
 <?php
-	include('include/config/logging.php');
-?>
-				
-		</div>
-		
-		<div id="footer">
-		
-<?php
-        include 'page-footer.php';
+include 'include/config/logging.php';
 ?>
 
-		
 		</div>
-		
+
+		<div id="footer">
+
+<?php
+include 'page-footer.php';
+?>
+
+
+		</div>
+
 </div>
 </div>
 
@@ -228,4 +218,3 @@ echo "</table>";
 
 </body>
 </html>
- 
