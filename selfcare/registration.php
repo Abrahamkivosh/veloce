@@ -24,8 +24,10 @@
 <body>
 <?php
 	require('db.php');
-	require 'sms.php';
 	require('basic.php');
+    include_once ("../services/smsService.php");
+
+	$smsService = new smsService();
 	
     // If form submitted, insert values into the database.
     if (isset($_REQUEST['username'])){
@@ -127,7 +129,7 @@
 							}
 				
         if($result && $result2 && $result3 && $result4 && $result5 && $result6){
-			sendSms();
+			$smsService->welcomeSMS($fnum, $firstname, $accounew, $planName, $username, $password);
 			
             header("Location: reg.php");
         }

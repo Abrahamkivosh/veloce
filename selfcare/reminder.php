@@ -1,7 +1,20 @@
 <?php
-require 'db.php';
-require 'sms.php';
+
+// show errors
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+// require 'sms.php';
 require 'basic.php';
+require_once "../services/smsService.php";
+
+// inclue database file in shared folder
+require_once "../shared/database.php";
+
+
+$smsService = new smsService();
+
 $now = time();
 //echo $now;
 $query1 = "SELECT DISTINCT username, planName, phone FROM userbillinfo";
@@ -39,15 +52,19 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     }
 
     $interval = round(($acctime - $now) / 86400);
-    //echo $interval."</br>&nbsp&nbsp&nbsp";
     switch ($interval) {
         case "5":
-            $message = "Dear {$fullname} Your account {$identity} will expire on {$exptime} Please topup to avoid disconnection.Your plan is {$planname}.Mpesa paybill: {$paybill}. Thank you. {$sitename}.";
-            //echo"expiry"." =".$exptime."</br>";
-            //echo $acctime."</br>";
-            //echo $interval."</br>";
-            //echo $message."</br>";
-            sendSms();
+            // echo $fullname."</br>";
+            // echo"expiry"." =".$exptime."</br>";
+            // echo $acctime."</br>";
+            // echo $interval."</br>";
+            // echo $fnum."</br>";
+            // echo $username."</br>";
+            // echo $planname."</br>";
+            // echo $identity."</br>";
+
+            $smsService->renewalReminder($fnum, $fullname, $identity, $planname, $exptime);
+
             break;
         default:
             //echo "No message to send";

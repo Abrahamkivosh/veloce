@@ -1,15 +1,13 @@
 <?php
-/*
-Author: Javed Ur Rehman
-Website: http://www.allphptricks.com/
-*/
+// show errors
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
 
-$con = mysqli_connect("localhost","root",'@christanetworks7879',"radius");
-// Check connection
-if (mysqli_connect_errno())
-  {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  }
+
+
+// include database connection file in the shared folder
+require_once '../db.php';
   
 ?>

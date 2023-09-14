@@ -41,11 +41,15 @@
 	 
  include_once('library/config_read.php');
  $log = "visited page: ";
-	require('bffer/db.php');
-	require 'bffer/sms.php';
-	require('bffer/basic.php');
+	require('db.php');
 	include_once ("library/tabber/tab-layout.php");
 	include ("menu-mng-users.php");
+
+	include_once ("../services/smsService.php");
+
+	$smsService = new smsService();
+
+	
 	
 	
     // If form submitted, insert values into the database.
@@ -102,9 +106,8 @@
 					$accounew = ($curracc + 1);
 		}
 		
-		
-		
-		 $message = "Welcome {$firstname} {$lastname} Your account number is {$accounew}. Your plan is {$planName}. Please use Mpesa paybill No. {$paybill} to complete your payment." ;
+		$fullName = $firstname." ".$lastname;
+
 		$firstchar = $mobilephone[0];
 		if($firstchar=="0"){
 			$newnum = substr($mobilephone, 1);
@@ -114,6 +117,8 @@
 				 $fnumb = substr($mobilephone, 1);
 				 $fnum = $fnumb;
 		}	
+	
+		$smsService->welcomeSMS($fnum, $fullName, $accounew, $planName, $username, $password);
 		
 		
 		$query = "INSERT into `userinfo` (enableportallogin, firstname, lastname, username, portalloginpassword, email, mobilephone, creationdate, creationby, updatedate, updateby, ckey, ctime, mng_hs_usr, account) VALUES ('$enabled', '$firstname', '$lastname', '$username', '".md5($password)."', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$ckey', '$ctime', '$mng_hs_usr', '$accounew')";
@@ -159,7 +164,7 @@
 							}
 				
         if($result && $result2 && $result3 && $result4 && $result5 && $result6){
-			sendSms();
+		
 			
             echo "</br></br>&nbsp&nbsp<h2>Success!</h2>";
         }

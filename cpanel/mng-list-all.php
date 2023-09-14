@@ -199,7 +199,7 @@
 		
 		
 		
-	require "bffer/db.php";
+	require "db.php";
 	
 	while($row = $res->fetchRow()) {
 		//print_r($row[0])."</br>";

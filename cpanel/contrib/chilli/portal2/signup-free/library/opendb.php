@@ -28,6 +28,9 @@
 
 	include_once ('DB.php');
 
+// include dabase connection file in the shared folder
+	
+
 	$dbConnectString = $configValues['CONFIG_DB_ENGINE'] . "://".$configValues['CONFIG_DB_USER'].":".$configValues['CONFIG_DB_PASS']."@".$configValues['CONFIG_DB_HOST'].":".$configValues['CONFIG_DB_PORT']."/".$configValues['CONFIG_DB_NAME'];
 	$dbSocket = DB::connect($dbConnectString);
 

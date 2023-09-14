@@ -29,7 +29,7 @@ $configValues['CONFIG_DB_ENGINE'] = 'mysqli';
 $configValues['CONFIG_DB_HOST'] = 'localhost';
 $configValues['CONFIG_DB_PORT'] = '3306';
 $configValues['CONFIG_DB_USER'] = 'root';
-$configValues['CONFIG_DB_PASS'] = '@christanetworks7879';
+$configValues['CONFIG_DB_PASS'] = 'fa';
 $configValues['CONFIG_DB_NAME'] = 'radius';
 $configValues['CONFIG_DB_TBL_RADCHECK'] = 'radcheck';
 $configValues['CONFIG_DB_TBL_RADREPLY'] = 'radreply';
@@ -95,6 +95,23 @@ $configValues['CONFIG_DASHBOARD_DALO_DELAYSOFT'] = '5';
 $configValues['CONFIG_DASHBOARD_DALO_DELAYHARD'] = '15';
 $configValues['CONFIG_INVOICE_TEMPLATE'] = 'invoice_template.html';
 $configValues['CONFIG_INVOICE_ITEM_TEMPLATE'] = 'invoice_item_template.html';
+$configValues['PAYBILL_NUMBER'] = '4043919';
+$configValues['CONFIG_DASHBOARD_DALO_MERCHANT'] = 'Christa Networks Limited';
+$configValues['BASE_URL'] = 'https://christanetworks.co.ke/';
+
+// set the default timezone to use. Available since PHP 5.1
+date_default_timezone_set('Africa/Nairobi');
+
+// set the default charset to use. Available since PHP 5.6
+ini_set('default_charset', 'UTF-8');
+
+// set the default locale to use. Available since PHP 4.3
+setlocale(LC_ALL, 'en_US.UTF-8');
+
+// set the default language to use. Available since PHP 4.3
+putenv('LANG=en_US.UTF-8');
+
+
 
 // show all errors
 error_reporting(E_ALL);
