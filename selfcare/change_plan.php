@@ -35,9 +35,9 @@ $sqli = "SELECT * FROM billing_plans ORDER BY planName";
 
 </form>
 <br /><br />
-<a href="http://www.canyonmicrosystems.co.ke/">&copy; <?php echo date("Y"); ?>&nbspCanyon Microsystems</a> <br /><br />
+<a href="http://www.lagaster.org/">&copy; <?php echo date("Y"); ?>&nbspLagaster Microsystems</a> <br /><br />
 </div>
-<?php } ?>
+
 <?php mysqli_close($con);?>
 </body>
 </html>

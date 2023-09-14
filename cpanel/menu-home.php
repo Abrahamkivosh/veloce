@@ -47,7 +47,7 @@
 	<p class="news">
 		WISP MANAGEMENT SYSTEM<br/>
 		 
-		<a href="https://canyonmicrosystems.co.ke" class="more">Canyon Microsystems &raquo;</a>
+		<a href="https://lagaster.org" class="more">Lagaster Microsystems &raquo;</a>
 	</p>
 
 

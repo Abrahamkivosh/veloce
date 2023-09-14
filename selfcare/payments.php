@@ -223,7 +223,7 @@ $sqli = "SELECT * FROM mpesa_payments WHERE BillRefNumber = '$account'";
 <!--Footer-part-->
 
 <div class="row-fluid">
-  <div id="footer" class="span12"> &copy;&nbsp<?php echo date('Y')?> Client portal. Brought to you by <a href="http://canyonmicrosystems.co.ke">Canyon Microsystems</a> </div>
+  <div id="footer" class="span12"> &copy;&nbsp<?php echo date('Y')?> Client portal. Brought to you by <a href="http://lagaster.org">Lagaster Microsystems</a> </div>
 </div>
 
 <!--end-Footer-part-->

@@ -6,7 +6,7 @@ class smsService {
     }
 
     private function sendSms() {
-      $url =  "https://client.airtouch.co.ke:9012/sms/api/?issn=CHRISTA_NET&msisdn=$this->fnum&text=$this->text+api+message&username=christanet&password=100ab9a90f84414410c6f7e0c62a2346";
+      $url =  "https://client.airtouch.co.ke:9012/sms/api/?issn=CHRISTA_NET&msisdn=$this->fnum&text=$this->text&username=christanet&password=100ab9a90f84414410c6f7e0c62a2346";
     
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -35,7 +35,7 @@ class smsService {
         $message = "Dear $fullName, Welcome to Christa Networks Limited. Your account number is $accountNumber. Your plan is $package. Please use Mpesa Paybill No. 4043919 to complete your payment.To access your online portal use https://www.christanetworks.co.ke/selfcare Username - $userName Password - $password";   
         $this->setPhone($phone);
         $this->setText($message);
-        // $this->sendSms();
+        $this->sendSms();
     }
     public function renewalReminder ($phone, $fullName, $accountNumber,$package, $expiryDate)
     {
@@ -74,9 +74,11 @@ class smsService {
         $this->sendSms();
     }
 
-    public function test()
+    public function sendPlainText($phone, $message)
     {
-        return "test Hello World";
+        $this->setPhone($phone);
+        $this->setText($message);
+        $this->sendSms();
     }
 
 }

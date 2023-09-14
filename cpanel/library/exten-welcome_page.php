@@ -27,7 +27,7 @@ echo "
 
 		<h3> WISP MANAGEMENT SYSTEM </h3>
 		
-		<h4> <a href=\"www.canyonmicrosystems.co.ke\"></a> </h4>
+		<h4> <a href=\"www.lagaster.org\"></a> </h4>
 		<br/><br/><br/>
 		<img src='' border=0 />
 	</center>
