@@ -82,7 +82,7 @@ include_once "../services/smsService.php";
 
 $smsService = new smsService();
 $smsg = null;
-$fmsg = "<strong>User Registration Failed</strong> :Duplicate information!";
+$fmsg = null;
 
 // If form submitted, insert values into the database. and is post request
 if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_POST["submit"])) {
