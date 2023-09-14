@@ -6,13 +6,14 @@ require_once  '../cpanel/library/read_env_file.php';
 class smsService {
     private  $fnum, $text, $text_username, $text_password, $text_issn;
     public function __construct() {
-        $this->text_username = getenv('TEXT_USERNAME');
-        $this->text_password = getenv('TEXT_PASSWORD');
+        $this->text_username = getenv('TEXTUSERNAME');
+        $this->text_password = getenv('TEXTPASSWORD');
         $this->text_issn = getenv('TEXT_ISSN');
     }
 
     private function sendSms() {
         $url = "https://client.airtouch.co.ke:9012/sms/api/?issn=$this->text_issn&msisdn=$this->fnum&text=$this->text&username=$this->text_username&password=$this->text_password";
+       
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -56,8 +57,6 @@ class smsService {
         access your online portal use  https://www.christanetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
-        print_r($message);
-        exit(   );
         $this->sendSms();
     }
 
