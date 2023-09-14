@@ -79,6 +79,8 @@ while ($row = mysqli_fetch_array($resulte)) {
     # code...
     $username = ($row['username']);
 
+    $fullname = ($row['firstname'] . " " . $row['lastname'] );
+
 }
 
 $sq = "SELECT * FROM userbillinfo WHERE username = '$username'";
@@ -121,6 +123,7 @@ while ($row = mysqli_fetch_array($result)) {
     }
 
 }
+
 $sqli3 = "SELECT * FROM radcheck WHERE ((username = '$username')&&(attribute = 'Expiration'))";
 $result3 = mysqli_query($con, $sqli3);
 while ($row = mysqli_fetch_array($result3)) {
