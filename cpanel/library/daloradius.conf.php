@@ -1,9 +1,9 @@
 <?php
 
 // show all errors
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
+// error_reporting(E_ALL);
+// ini_set('display_errors', '1');
+// ini_set('display_startup_errors', '1');
 
 $configValues['DALORADIUS_VERSION'] = '1.1-0';
 $configValues['FREERADIUS_VERSION'] = '2';
@@ -11,7 +11,7 @@ $configValues['CONFIG_DB_ENGINE'] = 'mysqli';
 $configValues['CONFIG_DB_HOST'] = 'localhost';
 $configValues['CONFIG_DB_PORT'] = '3306';
 $configValues['CONFIG_DB_USER'] = 'root';
-$configValues['CONFIG_DB_PASS'] = 'fa';
+$configValues['CONFIG_DB_PASS'] = '@christanetworks7879';
 $configValues['CONFIG_DB_NAME'] = 'radius';
 $configValues['CONFIG_DB_TBL_RADCHECK'] = 'radcheck';
 $configValues['CONFIG_DB_TBL_RADREPLY'] = 'radreply';
