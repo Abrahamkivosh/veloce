@@ -209,6 +209,8 @@ $l['all']['LastLoginTime'] = "Last Login Time";
 $l['all']['TotalSessionTime'] = "Total Session Time";
 $l['all']['RateName'] = "Rate Name";
 $l['all']['WalletName'] = "User Name";
+$l['all']['WalletBalance'] = "Balance";
+
 $l['all']['RateType'] = "Rate Type";
 $l['all']['RateCost'] = "Rate Cost";
 $l['all']['Billed'] = "Billed";
@@ -837,6 +839,8 @@ $l['button']['EditOperator'] = "Edit Operator";
 $l['button']['RemoveOperator'] = "Remove Operator";
 
 $l['button']['ProcessQuery'] = "Process Query";
+
+$l['button']['WalletBalance'] = "Wallet Balance";
 
  
  

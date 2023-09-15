@@ -15,84 +15,87 @@
  *
  *********************************************************************************************************
  *
- * Authors:	Liran Tal <liran@enginx.com>
+ * Authors:    Liran Tal <liran@enginx.com>
  *
  *********************************************************************************************************
  */
 
-    include ("library/checklogin.php");
-    $operator = $_SESSION['operator_user'];
+include "library/checklogin.php";
+$operator = $_SESSION['operator_user'];
 
-	#include('library/check_operator_perm.php');
+#include('library/check_operator_perm.php');
 
+include 'library/opendb.php';
 
-	include 'library/opendb.php';
+isset($_REQUEST['username']) ? $uname = $_REQUEST['username'] : $uname = "";
+isset($_REQUEST['account']) ? $account = $_REQUEST['account'] : $account = "";
+isset($_REQUEST['balance']) ? $balance = $_REQUEST['balance'] : $balance = "";
 
-        isset($_REQUEST['username']) ? $uname = $_REQUEST['username'] : $uname = "";
-        isset($_REQUEST['account']) ? $account = $_REQUEST['account'] : $account = "";
-		isset($_REQUEST['balance']) ? $balance = $_REQUEST['balance'] : $balance = "";
-        
+$successMsg = null;
+$failureMsg = null;
 
-	$edit_ratename = $uname; //feed the sidebar variables
+$logAction = "";
+$logDebugSQL = "";
+// current url 
+$currURL = $_SERVER['PHP_SELF'];
+$currURL .= "?username=$uname";
 
-	$logAction = "";
-	$logDebugSQL = "";
+if (isset($_POST['submit'])) {
 
-	if (isset($_POST['submit'])) {
+    $uname = $_POST['username'];
+    // $account = $_POST['account'];
+    $balance = $_POST['balance'];
 
-                $uname = $_POST['username'];
-                $account = $_POST['account'];
-                $balance = $_POST['balance'];
-                
-
-		if (trim($uname) != "") {
-
-			$currDate = date('Y-m-d H:i:s');
-			$currBy = $_SESSION['operator_user'];
-
-			$ratetype = "$ratetypenum/$ratetypetime";
-
-			$sql = "UPDATE ".$configValues['CONFIG_DB_TBL_DALOUSERBILLINFO']." SET ".
-			" username='".$dbSocket->escapeSimple($uname)."', ".
-			" account='".$dbSocket->escapeSimple($account).	"', ".
-			" balance='".$dbSocket->escapeSimple($balance)."', ".
-			" updatedate='$currDate', updateby='$currBy' ".
-			" WHERE username='".$dbSocket->escapeSimple($uname)."'";
-			$res = $dbSocket->query($sql);
-			$logDebugSQL = "";
-			$logDebugSQL .= $sql . "\n";
-
-			$successMsg = "Updated rate: <b> $uname </b>";
-			$logAction .= "Successfully updated wallet [$uname] on page: ";
-
-		} else {
-			$failureMsg = "no user name was entered, please specify a ruser name to edit.";
-			$logAction .= "Failed updating user [$uname] on page: ";
-		}
-
-	}
-
-
-	$sql = "SELECT * FROM ".$configValues['CONFIG_DB_TBL_DALOUSERBILLINFO']." WHERE username='".$dbSocket->escapeSimple($uname)."'";
-	$res = $dbSocket->query($sql);
-	$logDebugSQL .= $sql . "\n";
-
-	$row = $res->fetchRow();
-	$uname = $row[3];
-	$account = $row[1];
 	
 
-	include 'library/closedb.php';
+    if (trim($uname) != "") {
 
+        $currDate = date('Y-m-d H:i:s');
+        $currBy = $_SESSION['operator_user'];
 
-	if (trim($uname) == "") {
-		$failureMsg = "no user name was entered or found in database, please specify a user name to edit";
-	}
+        $ratetype = "$ratetypenum/$ratetypetime";
 
+        $sql = "UPDATE " . $configValues['CONFIG_DB_TBL_DALOUSERBILLINFO'] . " SET " .
+        " username='" . $dbSocket->escapeSimple($uname) . "', " .
+        " balance='" . $dbSocket->escapeSimple($balance) . "', " .
+        " updatedate='$currDate', updateby='$currBy' " .
+        " WHERE username='" . $dbSocket->escapeSimple($uname) . "'";
+        $res = $dbSocket->query($sql);
+        $logDebugSQL = "";
+        $logDebugSQL .= $sql . "\n";
 
-	include_once('library/config_read.php');
-	$log = "visited page: ";
+        $successMsg = "Updated rate: <b> $uname </b>";
+        $logAction .= "Successfully updated wallet [$uname] on page: ";
 
+    } else {
+        $failureMsg = "no user name was entered, please specify a ruser name to edit.";
+        $logAction .= "Failed updating user [$uname] on page: ";
+
+	
+    }
+
+}
+
+$sql = "SELECT * FROM " . $configValues['CONFIG_DB_TBL_DALOUSERBILLINFO'] . " WHERE username='" . $dbSocket->escapeSimple($uname) . "'";
+$res = $dbSocket->query($sql);
+$logDebugSQL .= $sql . "\n";
+
+$row = $res->fetchRow();
+$uname = $row[3];
+$account = $row[1];
+$balance = $row[2];
+
+// print_r($row);
+// exit();
+
+include 'library/closedb.php';
+
+if (trim($uname) == "") {
+    $failureMsg = "no user name was entered or found in database, please specify a user name to edit";
+}
+
+include_once 'library/config_read.php';
+$log = "visited page: ";
 
 ?>
 
@@ -101,66 +104,71 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<title><?php include('sitename.php');echo $sitename;?></title>
+<title><?php include 'sitename.php';
+echo $sitename;?></title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="css/1.css" type="text/css" media="screen,projection" />
 </head>
 <script src="library/javascript/pages_common.js" type="text/javascript"></script>
 <?php
-	include_once ("library/tabber/tab-layout.php");
+include_once "library/tabber/tab-layout.php";
 ?>
 
 <?php
-	include ("menu-bill-wallet.php");
+include "menu-bill-wallet.php";
 ?>
 	<div id="contentnorightbar">
 
-		<h2 id="Intro" onclick="javascript:toggleShowDiv('helpPage')"><?php echo t('Intro','billwalletedit.php') ?>
-		:: <?php if (isset($uname)) { echo $uname; } ?><h144>&#x2754;</h144></a></h2>
+		<h2 id="Intro" onclick="javascript:toggleShowDiv('helpPage')"><?php echo t('Intro', 'billwalletedit.php') ?>
+		:: <?php if (isset($uname)) {echo $uname;}?><h144>&#x2754;</h144></a></h2>
 
 		<div id="helpPage" style="display:none;visibility:visible" >
-			<?php echo t('helpPage','billwalletedit') ?>
+			<?php echo t('helpPage', 'billwalletedit') ?>
 			<br/>
 		</div>
 		<?php
-			include_once('include/management/actionMessages.php');
-		?>
+include_once 'include/management/actionMessages.php';
+?>
 
 		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
 <div class="tabber">
 
-	<div class="tabbertab" title="<?php echo t('title','walletInfo'); ?>">
+	<div class="tabbertab" title="<?php echo t('title', 'walletInfo'); ?>">
 
 
 	<fieldset>
 
-		<h302> <?php echo t('title','walletInfo'); ?> </h302>
+		<h302> <?php echo t('title', 'walletInfo'); ?> </h302>
 		<br/>
 
 		<ul>
 
 			<li class='fieldset'>
-			<label for='ratename' class='form'><?php echo t('all','WalletName') ?></label>
-			<input disabled name='ratename' type='text' id='ratename' value='<?php echo $uname ?>' tabindex=100 />
+			<label for='username' class='form'><?php echo t('all', 'WalletName') ?></label>
+			<input disabled  type='text' value='<?php echo $uname ?>' tabindex=100 />
+			</li>
+			<input  name='username' type='hidden' id='username' value='<?php echo $uname ?>' tabindex=100 />
+
+			<li class='fieldset'>
+			<label for='balance' class='form'><?php echo t('all', 'WalletBalance') ?></label>
+			<input  name='balance' type='number' id='balance' value='<?php echo $balance ?>' tabindex=101 />
 			</li>
 
-			
 
-			
+
+
 
 			<li class='fieldset'>
 			<br/>
 			<hr><br/>
-			<input type='submit' name='submit' value='<?php echo t('buttons','apply') ?>' tabindex=10000
+			<input type='submit' name='submit' value='<?php echo t('buttons', 'apply') ?>' tabindex=10000
 				class='button' />
 			</li>
 
 		</ul>
 
 	</fieldset>
-
-	<input type=hidden value="<?php echo $uname ?>" name="ratename"/>
 
 </div>
 
@@ -170,7 +178,7 @@
 		</form>
 
 <?php
-	include('include/config/logging.php');
+include 'include/config/logging.php';
 ?>
 
 		</div>
@@ -178,7 +186,7 @@
 		<div id="footer">
 
 <?php
-	include 'page-footer.php';
+include 'page-footer.php';
 ?>
 
 

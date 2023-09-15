@@ -18,7 +18,7 @@ if ((isset($failureMsg)) && ($failureMsg != "")) {
 }
 
 
-if ((isset($successMsg)) && ($successMsg != "")) {
+if ((isset($successMsg)) ) {
 	echo "<div class='success'>
 		$successMsg
 	</div>

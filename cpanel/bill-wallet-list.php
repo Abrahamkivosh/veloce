@@ -142,12 +142,12 @@
 
 	while($row = $res->fetchRow()) {
 		printqn("<tr>
-                        <td> <input type='checkbox' name='planName[]' value='$row[1]'> $row[0] </td>
+                        <td> <input type='checkbox' name='username[]' value='$row[1]'> $row[0] </td>
 
                         <td> <a class='tablenovisit' href='#'
 								onclick='javascript:return false;'
                                 tooltipText='
-                                        <a class=\"toolTip\" href=\"bill-wallet-edit.php?planName=$row[1]\">
+                                        <a class=\"toolTip\" href=\"bill-wallet-edit.php?username=$row[2]\">
                                                 ".t('button','EditWallet')."</a>
                                         <br/><br/>'
                                 >$row[1]</a>

@@ -39,7 +39,6 @@
 
 /* $Id: dompdf_config.inc.php,v 1.19 2006/07/07 21:31:02 benjcarson Exp $ */
 
-error_reporting(E_STRICT | E_ALL);
 
 /**
  * The root of your DOMPDF installation
