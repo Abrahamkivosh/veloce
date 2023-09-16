@@ -22,9 +22,6 @@
  *********************************************************************************************************
  */
 // show all errors
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 // import read env file
 require_once "../../cpanel/library/read_env_file.php";
