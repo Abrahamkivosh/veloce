@@ -19,6 +19,9 @@
  *
  *********************************************************************************************************
  */
+// show errors
+
+
  
 	isset($_REQUEST['error']) ? $error = $_REQUEST['error'] : $error = "";
 
@@ -30,7 +33,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <script src="library/javascript/pages_common.js" type="text/javascript"></script>
-<title><?php include('sitename.php');echo $sitename;?></title>
+<title>Users Login </title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="css/1.css" type="text/css" media="screen,projection" />
 
