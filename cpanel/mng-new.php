@@ -210,7 +210,6 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_POST
 
 			<?php if (isset($smsg)) {?>
 				<div class="alert alert-success" role="alert">
-					Hello world Of test
 					<?php echo $smsg; ?> </div>
 			<?php }?>
 
