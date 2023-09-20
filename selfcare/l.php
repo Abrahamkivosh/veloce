@@ -41,7 +41,7 @@
 			$_SESSION['username'] = $username;
 			header("Location: dash.php"); // Redirect user to index.php
             }else{
-				echo "<a href="loginform"><h6>Username/password is incorrect.</h6><br/>Click here to <a href='login.php'>Login</a></a>";
+				echo "<a href='loginform'><h6>Username/password is incorrect.</h6><br/>Click here to <a href='login.php'>Login</a></a>";
 				}
     }else{
 ?>

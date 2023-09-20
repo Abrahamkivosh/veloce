@@ -9,6 +9,7 @@ class smsService {
         $this->text_username = getenv('TEXTUSERNAME');
         $this->text_password = getenv('TEXTPASSWORD');
         $this->text_issn = getenv('TEXT_ISSN');
+
     }
 
     private function sendSms() {
@@ -22,17 +23,34 @@ class smsService {
         if ($output===FALSE) {
             echo "cURL Error:". curl_error($ch);
         }else{
-            echo "sent";
+            return $output;
         }
         curl_close($ch);
     }
 
     public function setPhone($fnum) {
+     
+        // check if number start with 254
+        $firstchar = $fnum[0];
+        if ($firstchar == "0") {
+            $newnum = substr($fnum, 1);
+            $fnum = "254" . $newnum;
+        } else {
+            $fnum = $fnum;
+        }
+        // remove spaces
+        $fnum = str_replace(" ", "", $fnum);
+        // remove + sign
+        $fnum = str_replace("+", "", $fnum);
+
+        
         $this->fnum = $fnum;
     }
     public function setText($text) {
         // replace spaces with plus sign
-        $text = str_replace(" ", "+", $text);
+        // $text = str_replace(" ", "+", $text);
+        //  add url encoding
+        $text = urlencode($text);
         $this->text = $text;
     }
 
@@ -48,16 +66,16 @@ class smsService {
         $message = "Dear $fullName Your account $accountNumber will expire on $expiryDate. Please topup to avoid disconnection. Your plan is $package. Mpesa paybill: 4043919. Thank you. Christa Networks. To access your online portal use https://www.christanetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
-        $this->sendSms();
+        return $this->sendSms();
     }
 
     public function confirmationOfPayment($phone, $newExpiryDate, $balance)
     {
-        $message = "Your subscription has been renewed to $newExpiryDate. Your Wallet balance is Ksh.$balance. To
-        access your online portal use  https://www.christanetworks.co.ke/selfcare";
+        $message = "Your subscription has been renewed to $newExpiryDate. Your Wallet balance is Ksh.$balance. To access your online portal use  https://www.christanetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
-        $this->sendSms();
+      
+        return $this->sendSms();
     }
 
     public function disconnectionNotice($phone, $fullName, $accountNumber, $package)
@@ -66,7 +84,7 @@ class smsService {
         https://www.christanetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
-        $this->sendSms();
+        return $this->sendSms();
     }
 
     /**
@@ -78,14 +96,22 @@ class smsService {
         $this->setPhone($phone);
         $this->setText($message);
       
-        $this->sendSms();
+        return $this->sendSms();
     }
 
     public function sendPlainText($phone, $message)
     {
         $this->setPhone($phone);
         $this->setText($message);
-        $this->sendSms();
+        return $this->sendSms();
     }
 
 }
+
+// $smsService = new smsService();
+
+// $response = $smsService->sendPlainText("254707585566", "Hello World");
+
+// echo "<pre>";
+// print_r($response);
+// echo "</pre>";

@@ -75,32 +75,24 @@ $resulte = mysqli_query($con, $sqlis);
 $fullname = "";
 $username = "";
 // return $resulte;
-while ($row = mysqli_fetch_array($resulte, MYSQLI_ASSOC )) {
+while ($row = mysqli_fetch_array($resulte, MYSQLI_ASSOC)) {
     # code...
     $username = ($row['username']);
     $fullname = ($row['firstname'] . " " . $row['lastname']);
 }
 
-
+$phone = "";
 
 $sq = "SELECT * FROM userbillinfo WHERE username = '$username'";
+
 $result = mysqli_query($con, $sq);
 while ($row = mysqli_fetch_array($result)) {
-    # code...
     $plan = ($row['planName']);
     $account = ($row['account']);
     $phone = ($row['phone']);
-    $firstchar = $phone[0];
-    if ($firstchar == "0") {
-        $newnum = substr($phone, 1);
-        $fnumb = "+254" . $newnum;
-        $fnum = "254" . $newnum;
-    } else {
-        $fnumb = substr($phone, 1);
-        $fnum = $fnumb;
-    }
-
 }
+
+
 $sqli2 = "SELECT * FROM billing_plans WHERE planName = '$plan'";
 $result4 = mysqli_query($con, $sqli2);
 while ($row = mysqli_fetch_array($result4)) {
@@ -121,7 +113,6 @@ while ($row = mysqli_fetch_array($result)) {
         $balance = ($row['balance']);
         $balance = 0;
     }
-
 }
 
 $sqli3 = "SELECT * FROM radcheck WHERE ((username = '$username')&&(attribute = 'Expiration'))";
@@ -142,7 +133,6 @@ while ($row = mysqli_fetch_array($result3)) {
         $newdate = date("d M Y H:i:s", $timenew);
         //echo $newdate."</br>";
     }
-
 }
 
 if ($transamount > $plancost) {
@@ -156,7 +146,7 @@ if ($transamount > $plancost) {
     $sqli5 = "UPDATE userbillinfo SET balance='$new_balance' WHERE username='$username'";
     $result11 = mysqli_query($con, $sqli5);
 
-    $smsService->confirmationOfPayment($fnumb, $newdate, $new_balance);
+    $response = $smsService->confirmationOfPayment($phone, $newdate, $new_balance);
 
 } else if ($transamount < $plancost) {
 
@@ -170,28 +160,25 @@ if ($transamount > $plancost) {
         $result12 = mysqli_query($con, $sqli7);
         $sqli8 = "UPDATE userbillinfo SET balance='$new_balance' WHERE username='$username'";
         $result13 = mysqli_query($con, $sqli8);
-        $smsService->confirmationOfPayment($fnumb, $newdate, $new_balance);
-
-    } else  {
+        $smsService->confirmationOfPayment($phone, $newdate, $new_balance);
+    } else {
         $diff = $plancost - $new_amount;
         $sqli9 = "UPDATE userbillinfo SET balance='$new_amount' WHERE username='$username'";
         $result14 = mysqli_query($con, $sqli9);
 
-        $smsService->lessBalanceNotice($fnumb, $fullname, $account, $new_amount, $diff);
-    } 
-
+        $smsService->lessBalanceNotice($phone, $fullname, $account, $new_amount, $diff);
+    }
 } else {
     $sqli11 = "UPDATE radcheck SET value='$newdate' WHERE ((attribute='Expiration')&&(username='$username'))";
     $result16 = mysqli_query($con, $sqli11);
 
-    $smsService->confirmationOfPayment($fnumb, $newdate, $balance);
+    $smsService->confirmationOfPayment($phone, $newdate, $balance);
 }
 
 if (!mysqli_query($con, $sql)) {
     echo mysqli_error($con);
 } else {
     echo '{"ResultCode":0,"ResultDesc":"Confirmation received successfully"}';
-
 }
 
 mysqli_close($con);

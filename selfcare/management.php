@@ -22,13 +22,13 @@ function checkUserOnline(){
  function getUsername(){
 	
 $sqlis = "SELECT username FROM userinfo WHERE account = '$billrefno'";
-										$resulte = mysqli_query($con, $sqlis);
-											while ($row = mysqli_fetch_array($resulte)) {
-											# code...
-											$username = ($row['username']);
-											
-										}
-										return &username;
+$resulte = mysqli_query($con, $sqlis);
+	while ($row = mysqli_fetch_array($resulte)) {
+	# code...
+	$username = ($row['username']);
+	
+}
+return $username;
 }
 getUsername();
 ?>

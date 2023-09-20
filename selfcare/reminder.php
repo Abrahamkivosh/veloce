@@ -20,15 +20,6 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $planname = $row['planName'];
     $phone = $row['phone'];
 
-    $firstchar = $phone[0];
-    if ($firstchar == "0") {
-        $newnum = substr($phone, 1);
-        $fnum = "254" . $newnum;
-    } else {
-        $fnum = substr($phone, 1);
-    }
-    //echo($fnum)."</br>";
-
     $query2 = "SELECT firstname, lastname,account FROM userinfo WHERE username = '$username'";
     $result2 = mysqli_query($con, $query2);
     while ($row = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
@@ -49,16 +40,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $interval = round(($acctime - $now) / 86400);
     switch ($interval) {
         case "5":
-            // echo $fullname."</br>";
-            // echo"expiry"." =".$exptime."</br>";
-            // echo $acctime."</br>";
-            // echo $interval."</br>";
-            // echo $fnum."</br>";
-            // echo $username."</br>";
-            // echo $planname."</br>";
-            // echo $identity."</br>";
-
-            $smsService->renewalReminder($fnum, $fullname, $identity, $planname, $exptime);
+            $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
 
             break;
         default:
