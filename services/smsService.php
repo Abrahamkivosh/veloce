@@ -22,6 +22,13 @@ class smsService {
         $output = curl_exec($ch);
         if ($output===FALSE) {
             echo "cURL Error:". curl_error($ch);
+            // Log error to file
+            $error = "cURL Error:". curl_error($ch);
+            $error_file = "../error.txt";
+            $file = fopen ($error_file, "a");
+            fwrite($file, $error);
+            fclose($file);
+            return $error;
         }else{
             return $output;
         }

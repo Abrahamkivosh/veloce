@@ -38,13 +38,46 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     }
 
     $interval = round(($acctime - $now) / 86400);
+    $interval = intval(abs($interval));
     switch ($interval) {
-        case "5":
+        case 5:
+            echo "5 days left reminder </br>";
+            echo $fullname . "</br>";
+            echo $identity . "</br>";
+            echo $planname . "</br>";
+            echo $exptime . "</br>";
+            echo $phone . "</br>";
+            echo "----------------------------------</br>";
+            $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+
+            break;
+        case 3:
+            echo "3 days left reminder </br>";
+            echo $fullname . "</br>";
+            echo $identity . "</br>";
+            echo $planname . "</br>";
+            echo $exptime . "</br>";
+            echo $phone . "</br>";
+            echo "----------------------------------</br>";
+            $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+
+            break;
+        case 2:
+            echo "3 days left reminder </br>";
+            echo $fullname . "</br>";
+            echo $identity . "</br>";
+            echo $planname . "</br>";
+            echo $exptime . "</br>";
+            echo $phone . "</br>";
+            echo "----------------------------------</br>";
             $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
 
             break;
         default:
-            //echo "No message to send";
+            // echo "No reminder for ". $fullname . "</br>";
+            // echo $phone . "</br>";
+            // echo "----------------------------------</br>";
+            break;
     }
 }
 
