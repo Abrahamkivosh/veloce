@@ -1,7 +1,7 @@
 <?php
 	/** Libchart - PHP chart library
 	*	
-	* Copyright (C) 2005-2006 Jean-Marc Trémeaux (jm.tremeaux at gmail.com)
+	* Copyright (C) 2005-2006 Jean-Marc Trï¿½meaux (jm.tremeaux at gmail.com)
 	* 	
 	* This library is free software; you can redistribute it and/or
 	* modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@
 	/**
 	* Pie chart
 	*
-	* @author   Jean-Marc Trémeaux (jm.tremeaux at gmail.com)
+	* @author   Jean-Marc Trï¿½meaux (jm.tremeaux at gmail.com)
 	*/
 
 	class PieChart extends Chart
@@ -75,9 +75,10 @@
 		
 		function sortPie($v1, $v2)
 		{
-			return $v1[0] == $v2[0] ? 0 :
-				$v1[0] > $v2[0] ? -1 :
-				1;
+			// return $v1[0] == $v2[0] ? 0 :
+			// 	$v1[0] > $v2[0] ? -1 :
+			// 	1;
+				return $v1[0] == $v2[0] ? 0 : ($v1[0] > $v2[0] ? -1 : 1);
 		}
 		
 		/**
