@@ -62,7 +62,7 @@ $transactionSql = $sql;
 $transactionResponse = $response ? "Success" : "Failed";
 
 $transactionLog = "Transaction Data: $transactionData\nSQL Query: $transactionSql\nResponse: $transactionResponse\n\n";
-$file = "../transaction.log";
+$file = "transaction.log";
 // check if file exists
 if (file_exists($file)) {
     // write to file
