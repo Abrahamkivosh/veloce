@@ -1,33 +1,34 @@
 <?php
+
 /*********************************************************************
-* Name: pages_common.php
-* Author: Liran tal <liran.tal@gmail.com>
-*
-* Provides common operations on different management pages and other
-* categories
-*
-*********************************************************************/
+ * Name: pages_common.php
+ * Author: Liran tal <liran.tal@gmail.com>
+ *
+ * Provides common operations on different management pages and other
+ * categories
+ *
+ *********************************************************************/
 
 
 /* returns a random alpha-numeric string of length $length */
-function createPassword($length, $chars) {
-	
+function createPassword($length, $chars)
+{
+
 	if (!$chars)
 		$chars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
-		
-    srand((double)microtime()*1000000);
-    $i = 0;
-    $pass = '' ;
 
-    while ($i <= ($length - 1)) {
-        $num = rand() % (strlen($chars));
-        $tmp = substr($chars, $num, 1);
-        $pass = $pass . $tmp;
-        $i++;
-    }
+	srand((float)microtime() * 1000000);
+	$i = 0;
+	$pass = '';
 
-    return $pass;
+	while ($i <= ($length - 1)) {
+		$num = rand() % (strlen($chars));
+		$tmp = substr($chars, $num, 1);
+		$pass = $pass . $tmp;
+		$i++;
+	}
 
+	return $pass;
 }
 
 
@@ -37,76 +38,81 @@ function createPassword($length, $chars) {
 
 function toxbyte($size)
 {
-        // Gigabytes
-        if ( $size > 1073741824 )
-        {
-                $ret = $size / 1073741824;
-                $ret = round($ret,2)." Gb";
-                return $ret;
-        }
+	// Gigabytes
+	if ($size > 1073741824) {
+		$ret = $size / 1073741824;
+		$ret = round($ret, 2) . " Gb";
+		return $ret;
+	}
 
-        // Megabytes
-        if ( $size > 1048576 )
-        {
-                $ret = $size / 1048576;
-                $ret = round($ret,2)." Mb";
-                return $ret;
-        }
+	// Megabytes
+	if ($size > 1048576) {
+		$ret = $size / 1048576;
+		$ret = round($ret, 2) . " Mb";
+		return $ret;
+	}
 
-        // Kilobytes
-        if ($size > 1024 )
-        {
-                $ret = $size / 1024;
-                $ret = round($ret,2)." Kb";
-                return $ret;
-        }
+	// Kilobytes
+	if ($size > 1024) {
+		$ret = $size / 1024;
+		$ret = round($ret, 2) . " Kb";
+		return $ret;
+	}
 
-        // Bytes
-        if ( ($size != "") && ($size <= 1024 ) )
-        {
-                $ret = $size." B";
-                return $ret;
-        }
-
+	// Bytes
+	if (($size != "") && ($size <= 1024)) {
+		$ret = $size . " B";
+		return $ret;
+	}
 }
 
 
 // set of functions to ease the usage of escaping " chars in echo or print functions
 // thanks to php.net
-function qq($text) {return str_replace('`','"',$text); }
-function printq($text) { print qq($text); }
-function printqn($text) { print qq($text)."\n"; }
+function qq($text)
+{
+	return str_replace('`', '"', $text);
+}
+function printq($text)
+{
+	print qq($text);
+}
+function printqn($text)
+{
+	print qq($text) . "\n";
+}
 
 
 
 // function taken from dialup_admin
-function time2str($time) {
+function time2str($time)
+{
 
 	$str = "";				// initialize variable
-	$time = floor($time);
+	$time = isset($time) ? floor($time) : 0;	// make sure time is an integer
 	if (!$time)
 		return "0 seconds";
-	$d = $time/86400;
+	$d = $time / 86400;
 	$d = floor($d);
-	if ($d){
+	if ($d) {
 		$str .= "$d days, ";
 		$time = $time % 86400;
 	}
-	$h = $time/3600;
+	$h = $time / 3600;
 	$h = floor($h);
-	if ($h){
+	if ($h) {
 		$str .= "$h hours, ";
 		$time = $time % 3600;
 	}
-	$m = $time/60;
+	$m = $time / 60;
 	$m = floor($m);
-	if ($m){
+	if ($m) {
 		$str .= "$m minutes, ";
 		$time = $time % 60;
 	}
 	if ($time)
 		$str .= "$time seconds, ";
-	$str = preg_replace("/, $/",'',$str);
+	$str = preg_replace("/, $/", '', $str);
 	return $str;
 }
 
@@ -114,10 +120,11 @@ function time2str($time) {
 
 // return next billing date (Y-m-d format) based on
 // the billing recurring period and billing schedule type 
-function getNextBillingDate($planRecurringBillingSchedule, $planRecurringPeriod, $billDates = null) {
-	
+function getNextBillingDate($planRecurringBillingSchedule, $planRecurringPeriod, $billDates = null)
+{
+
 	// initialize next bill date string (Y-m-d style)
-	
+
 	if ($billDates == null) {
 		$nextBillDate = "0000-00-00";
 		$prevBillDate = "0000-00-00";
@@ -125,9 +132,9 @@ function getNextBillingDate($planRecurringBillingSchedule, $planRecurringPeriod,
 		$nextBillDate = $billDates['nextBillDate'];
 		$prevBillDate = $billDates['prevBillDate'];
 	}
-	
+
 	switch ($planRecurringBillingSchedule) {
-	
+
 		case "Anniversary":
 			switch ($planRecurringPeriod) {
 				case "Daily":
@@ -156,8 +163,8 @@ function getNextBillingDate($planRecurringBillingSchedule, $planRecurringPeriod,
 					$nextBillDate = date('Y-m-d', strtotime("+1 year"));
 					break;
 			}
-			break;						
-		
+			break;
+
 		case "Fixed":
 		default:
 			switch ($planRecurringPeriod) {
@@ -179,38 +186,36 @@ function getNextBillingDate($planRecurringBillingSchedule, $planRecurringPeriod,
 					// set to the end of this quarter
 					$currMonth = (int)date('n');
 					$quarterMonth = 1;
-					if ( ($currMonth >= 1) && ($currMonth <= 3) )
+					if (($currMonth >= 1) && ($currMonth <= 3))
 						$quarterMonth = 3;
-					if ( ($currMonth >= 4) && ($currMonth <= 6) )
+					if (($currMonth >= 4) && ($currMonth <= 6))
 						$quarterMonth = 6;
-					if ( ($currMonth >= 7) && ($currMonth <= 9) )
+					if (($currMonth >= 7) && ($currMonth <= 9))
 						$quarterMonth = 9;
-					if ( ($currMonth >= 10) && ($currMonth <= 12) )
+					if (($currMonth >= 10) && ($currMonth <= 12))
 						$quarterMonth = 12;
-					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, $quarterMonth, date('t', mktime(0,0,0, $quarterMonth, 1, date('Y'))), date('Y')));
+					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, $quarterMonth, date('t', mktime(0, 0, 0, $quarterMonth, 1, date('Y'))), date('Y')));
 					break;
 				case "Semi-Yearly":
 					$currMonth = (int)date('n');
 					$quarterMonth = 1;
-					if ( ($currMonth >= 1) && ($currMonth <= 6) )
+					if (($currMonth >= 1) && ($currMonth <= 6))
 						$quarterMonth = 6;
-					else if ( ($currMonth >= 7) && ($currMonth <= 12) )
+					else if (($currMonth >= 7) && ($currMonth <= 12))
 						$quarterMonth = 12;
-					
-					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, $quarterMonth, (date('t', mktime(0,0,0, $quarterMonth, 1, date('Y')))), date('Y')));
+
+					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, $quarterMonth, (date('t', mktime(0, 0, 0, $quarterMonth, 1, date('Y')))), date('Y')));
 					break;
 				case "Yearly":
 					// set to the end of the year
-					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, 12, (date('t', mktime(0,0,0, 12, 1, date('Y')))), date('Y')));
+					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, 12, (date('t', mktime(0, 0, 0, 12, 1, date('Y')))), date('Y')));
 					break;
-			}							
-			
+			}
+
 			break;
-			
 	}
-	
+
 	return $nextBillDate;
-	
 }
 
 
@@ -225,10 +230,11 @@ function getNextBillingDate($planRecurringBillingSchedule, $planRecurringPeriod,
 
 // return prev/start billing date (Y-m-d format) based on
 // the billing recurring period and billing schedule type 
-function getPrevBillingDate($planRecurringBillingSchedule , $planRecurringPeriod, $billDates = null) {
-	
+function getPrevBillingDate($planRecurringBillingSchedule, $planRecurringPeriod, $billDates = null)
+{
+
 	// initialize next bill date string (Y-m-d style)
-	
+
 	if ($billDates == null) {
 		$nextBillDate = "0000-00-00";
 		$prevBillDate = "0000-00-00";
@@ -236,9 +242,9 @@ function getPrevBillingDate($planRecurringBillingSchedule , $planRecurringPeriod
 		$nextBillDate = $billDates['nextBillDate'];
 		$prevBillDate = $billDates['prevBillDate'];
 	}
-	
+
 	switch ($planRecurringBillingSchedule) {
-	
+
 		case "Anniversary":
 			switch ($planRecurringPeriod) {
 				case "Daily":
@@ -267,8 +273,8 @@ function getPrevBillingDate($planRecurringBillingSchedule , $planRecurringPeriod
 					$nextBillDate = date('Y-m-d', strtotime("+1 year"));
 					break;
 			}
-			break;						
-		
+			break;
+
 		case "Fixed":
 		default:
 			switch ($planRecurringPeriod) {
@@ -289,39 +295,37 @@ function getPrevBillingDate($planRecurringBillingSchedule , $planRecurringPeriod
 					// set to the start of this quarter
 					$currMonth = (int)date('n');
 					$quarterMonth = 1;
-					if ( ($currMonth >= 1) && ($currMonth <= 3) )
+					if (($currMonth >= 1) && ($currMonth <= 3))
 						$quarterMonth = 1;
-					if ( ($currMonth >= 4) && ($currMonth <= 6) )
+					if (($currMonth >= 4) && ($currMonth <= 6))
 						$quarterMonth = 4;
-					if ( ($currMonth >= 7) && ($currMonth <= 9) )
+					if (($currMonth >= 7) && ($currMonth <= 9))
 						$quarterMonth = 7;
-					if ( ($currMonth >= 10) && ($currMonth <= 12) )
+					if (($currMonth >= 10) && ($currMonth <= 12))
 						$quarterMonth = 10;
-					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, $quarterMonth, date(01, mktime(0,0,0, $quarterMonth, 1, date('Y'))), date('Y')));
+					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, $quarterMonth, date(01, mktime(0, 0, 0, $quarterMonth, 1, date('Y'))), date('Y')));
 					break;
 				case "Semi-Yearly":
 					// set to the start of the occurrence of either half of the year (start of june or start of january)
 					$currMonth = (int)date('n');
 					$quarterMonth = 1;
-					if ( ($currMonth >= 1) && ($currMonth <= 6) )
+					if (($currMonth >= 1) && ($currMonth <= 6))
 						$quarterMonth = 1;
-					else if ( ($currMonth >= 7) && ($currMonth <= 12) )
+					else if (($currMonth >= 7) && ($currMonth <= 12))
 						$quarterMonth = 6;
-					
+
 					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, $quarterMonth, 01, date('Y')));
 					break;
 				case "Yearly":
 					// set to the start of the year
 					$nextBillDate = date('Y-m-d', mktime(0, 0, 0, 01, 01, date('Y')));
 					break;
-			}							
-			
+			}
+
 			break;
-			
 	}
-	
+
 	return $nextBillDate;
-	
 }
 
 
@@ -334,26 +338,23 @@ function getPrevBillingDate($planRecurringBillingSchedule , $planRecurringPeriod
  * @param		$view			array of view parameters
  * @return		$string			returns string
  */
-function addToolTipBalloon($view) {
-	
+function addToolTipBalloon($view)
+{
+
 	if ($view['divId'])
-		$viewId = '<div id="'.$view['divId'].'">Loading...</div>';
+		$viewId = '<div id="' . $view['divId'] . '">Loading...</div>';
 	else
 		$viewId = '';
-	
+
 	$sep = ($view['onClick'] != '' && substr($view['onClick'], -1) != ';' ? ';' : '');
-	
+
 	$str = "<a class='tablenovisit' href='#'
-				onClick=\"".$view['onClick'].$sep."return false;\"
-                tooltipText='".$view['content']."
+				onClick=\"" . $view['onClick'] . $sep . "return false;\"
+                tooltipText='" . $view['content'] . "
 							<br/><br/>
 							$viewId
 							<br/>'
-			>".$view['value']."</a>";
+			>" . $view['value'] . "</a>";
 
 	return $str;
 }
-
-
-
-?>
