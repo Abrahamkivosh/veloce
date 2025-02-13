@@ -147,7 +147,6 @@ if ($transamount > $plancost) {
     $result11 = mysqli_query($con, $sqli5);
 
     $response = $smsService->confirmationOfPayment($phone, $newdate, $new_balance);
-
 } else if ($transamount < $plancost) {
 
     $new_amount = ($transamount + $balance);
