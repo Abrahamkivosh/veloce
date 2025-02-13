@@ -53,7 +53,26 @@ foreach ($fields as $field) {
 // Insert transaction data into the database
 $sql = "INSERT INTO mpesa_payments (TransactionType, TransID, TransTime, TransAmount, BusinessShortCode, BillRefNumber, InvoiceNumber, MSISDN, FirstName, MiddleName, LastName, OrgAccountBalance) 
         VALUES ('$TransactionType', '$TransID', '$TransTime', '$TransAmount', '$BusinessShortCode', '$BillRefNumber', '$InvoiceNumber', '$MSISDN', '$FirstName', '$MiddleName', '$LastName', '$OrgAccountBalance')";
-mysqli_query($con, $sql);
+$response = mysqli_query($con, $sql);
+
+// I need to stocre $data data, $sql and $response to a file
+// Log the transaction data
+$transactionData = json_encode($data);
+$transactionSql = $sql;
+$transactionResponse = $response ? "Success" : "Failed";
+
+$transactionLog = "Transaction Data: $transactionData\nSQL Query: $transactionSql\nResponse: $transactionResponse\n\n";
+$file = "../transaction.log";
+// check if file exists
+if (file_exists($file)) {
+    // write to file
+    file_put_contents($file, $transactionLog, FILE_APPEND);
+} else {
+    // create file and write to it
+    file_put_contents($file, $transactionLog);
+}
+
+
 
 // Fetch user details based on BillRefNumber
 $userQuery = "SELECT account, username, firstname, lastname FROM userinfo WHERE account = '$BillRefNumber'";
