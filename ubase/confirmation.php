@@ -57,20 +57,20 @@ $response = mysqli_query($con, $sql);
 
 // I need to stocre $data data, $sql and $response to a file
 // Log the transaction data
-$transactionData = json_encode($data);
-$transactionSql = $sql;
-$transactionResponse = $response ? "Success" : "Failed";
+// $transactionData = json_encode($data);
+// $transactionSql = $sql;
+// $transactionResponse = $response ? "Success" : "Failed";
 
-$transactionLog = "Transaction Data: $transactionData\nSQL Query: $transactionSql\nResponse: $transactionResponse\n\n";
-$file = "transaction.log";
-// check if file exists
-if (file_exists($file)) {
-    // write to file
-    file_put_contents($file, $transactionLog, FILE_APPEND);
-} else {
-    // create file and write to it
-    file_put_contents($file, $transactionLog);
-}
+// $transactionLog = "Transaction Data: $transactionData\nSQL Query: $transactionSql\nResponse: $transactionResponse\n\n";
+// $file = "transaction.log";
+// // check if file exists
+// if (file_exists($file)) {
+//     // write to file
+//     file_put_contents($file, $transactionLog, FILE_APPEND);
+// } else {
+//     // create file and write to it
+//     file_put_contents($file, $transactionLog);
+// }
 
 
 
