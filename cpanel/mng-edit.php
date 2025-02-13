@@ -764,6 +764,7 @@ include("menu-mng-users.php");
 							<li class='fieldset'>
 								<label for='password' class='form'><?php echo t('all', 'Password') ?></label>
 								<input name='password' type='text' id='password'
+									value='<?php if (isset($user_password)) echo $user_password ?>'
 									<?php if (isset($hiddenPassword)) echo $hiddenPassword ?> disabled tabindex=101 />
 								<img src='images/icons/comment.png' alt='Tip' border='0'
 									onClick="javascript:toggleShowDiv('passwordTooltip')" />
