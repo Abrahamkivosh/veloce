@@ -1,11 +1,6 @@
 #!/bin/bash
 
-# MySQL Credentials
-DB_HOST="localhost"
-DB_PORT="3306"
-DB_NAME="new_radius"
-DB_USER="root"
-DB_PASSWORD="@christanetworks7879"
+
 
 # Backup directory (change if needed)
 BACKUP_DIR="/var/backups/mysql"
