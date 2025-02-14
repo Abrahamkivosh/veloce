@@ -7,14 +7,15 @@ DB_NAME="new_radius"
 BACKUP_DIR="/var/backups/mysql"
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 BACKUP_FILE="$BACKUP_DIR/new_radius_backup_$TIMESTAMP.sql"
+echo "Backup file: $BACKUP_FILE"
 
 # Ensure the backup directory exists
 mkdir -p "$BACKUP_DIR"
 
-# Delete records older than 2 days from radpostauth
-mysql --login-path=newradius -D "$DB_NAME" -e "
-DELETE FROM radpostauth WHERE authdate < NOW() - INTERVAL 2 DAY;
-"
+# Delete all  records  from radpostauth
+mysql --login-path=newradius -D "$DB_NAME" -e "DELETE FROM radpostauth"
+
+echo "Deleted all records from radpostauth"
 
 # Backup the database (every 6 months)
 if [ "$(date +%m)" -eq 01 ] || [ "$(date +%m)" -eq 07 ]; then
