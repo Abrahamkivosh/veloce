@@ -2,10 +2,13 @@
 
 
 require 'basic.php';
-require_once "../services/smsService.php";
+// require_once "../services/smsService.php";
 
 // inclue database file in shared folder
-require_once "../shared/database.php";
+// require_once "../shared/database.php";
+
+require_once __DIR__ . '/../services/smsService.php';
+require_once __DIR__ . '/../shared/database.php';
 
 
 $smsService = new smsService();
