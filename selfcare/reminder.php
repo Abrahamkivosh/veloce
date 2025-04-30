@@ -39,11 +39,6 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $interval = round(($acctime - $now) / 86400);
         $interval = intval(abs($interval));
 
-        // continue if $identity  is not equal to 1145
-        if ($identity !== (string) 1145) {
-            continue;
-        }
-
         switch ($interval) {
             case 5:
                 $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
