@@ -1,89 +1,86 @@
-<?php 
-header("Content-Type:application/json"); 
+<?php
+// Improved Payment Callback Handler
+// Author: Abraham Kivosh
 
-if (!isset($_GET["token"]))
-{
-echo "Technical error";
-exit();
+header("Content-Type: application/json");
+
+require_once "../shared/database.php";
+
+// Validate token
+if (!isset($_GET["token"])) {
+	echo json_encode(["error" => "Technical error. Token missing."]);
+	exit();
 }
 
+$validToken = '217ab0d4de6d426df670759321392fc2';
 
-if ($_GET["token"]!='217ab0d4de6d426df670759321392fc2')
-{
-echo "Invalid authorization";
-exit();
+if ($_GET["token"] !== $validToken) {
+	echo json_encode(["error" => "Invalid authorization token."]);
+	exit();
 }
 
-
-$servername = 'localhost';
-$username = 'root';
-$password = '@christanetworks7879';
-$dbname = 'radius';
-
-$con = mysqli_connect($servername, $username, $password, $dbname);
-
-if (!$con) 
-{
-die("Connection failed: " . mysqli_connect_error());
-}
-
-$request=file_get_contents('php://input');
-
-
-
+// Read and decode JSON input
+$request = file_get_contents('php://input');
 $array = json_decode($request, true);
-$transactiontype= mysqli_real_escape_string($con,$array['TransactionType']); 
-$transid=mysqli_real_escape_string($con,$array['TransID']); 
-$transtime= mysqli_real_escape_string($con,$array['TransTime']); 
-$transamount= mysqli_real_escape_string($con,$array['TransAmount']); 
-$businessshortcode=  mysqli_real_escape_string($con,$array['BusinessShortCode']); 
-$billrefno=  mysqli_real_escape_string($con,$array['BillRefNumber']); 
-$invoiceno=  mysqli_real_escape_string($con,$array['InvoiceNumber']); 
-$msisdn=  mysqli_real_escape_string($con,$array['MSISDN']); 
-$orgaccountbalance=   mysqli_real_escape_string($con,$array['OrgAccountBalance']); 
-$firstname=mysqli_real_escape_string($con,$array['FirstName']); 
-$middlename=mysqli_real_escape_string($con,$array['MiddleName']); 
-$lastname=mysqli_real_escape_string($con,$array['LastName']); 
 
-
-
-$sqli = "SELECT * FROM userbillinfo WHERE account ='$billrefno'";
-										$result = mysqli_query($con, $sqli);
-											while ($row = mysqli_fetch_array($result)) {
-											# code...
-											$acc = ($row['account']);
-																					
-										}
-
-/* 
-here you need to parse the json format 
-and do your business logic e.g. 
-you can use the Bill Reference number 
-or mobile phone of a customer 
-to search for a matching record on your database. 
-*/ 
-
-/* 
-Reject an Mpesa transaction 
-by replying with the below code 
-*/ 
-
-if ($acc!== $billrefno){
-	
-	
-	echo '{"ResultCode":1, "ResultDesc":"Failed", "ThirdPartyTransID": 0}';
-	
-}
-else{
-	echo '{"ResultCode":0, "ResultDesc":"Success", "ThirdPartyTransID": 0}';
+if (json_last_error() !== JSON_ERROR_NONE) {
+	echo json_encode(["error" => "Invalid JSON input."]);
+	exit();
 }
 
-mysqli_close($con);
-/* 
-Accept an Mpesa transaction 
-by replying with the below code 
-*/ 
+// Safely extract fields from input (with defaults)
+$transactiontype = $array['TransactionType'] ?? '';
+$transid = $array['TransID'] ?? '';
+$transtime = $array['TransTime'] ?? '';
+$transamount = $array['TransAmount'] ?? '';
+$businessshortcode = $array['BusinessShortCode'] ?? '';
+$billrefno = $array['BillRefNumber'] ?? '';
+$invoiceno = $array['InvoiceNumber'] ?? '';
+$msisdn = $array['MSISDN'] ?? '';
+$orgaccountbalance = $array['OrgAccountBalance'] ?? '';
+$firstname = $array['FirstName'] ?? '';
+$middlename = $array['MiddleName'] ?? '';
+$lastname = $array['LastName'] ?? '';
+
+// Validate required field
+if (empty($billrefno)) {
+	echo json_encode(["ResultCode" => 1, "ResultDesc" => "Missing Bill Reference Number", "ThirdPartyTransID" => 0]);
+	exit();
+}
+
+// Use prepared statement to prevent SQL injection
+$acc = null;
+$stmt = $con->prepare("SELECT account FROM userbillinfo WHERE account = ?");
+$stmt->bind_param("s", $billrefno);
+$stmt->execute();
+$result = $stmt->get_result();
+// dump result here
 
 
- 
-?>
+
+if ($row = $result->fetch_assoc()) {
+	$acc = $row['account'];
+}
+
+
+// Generate response
+if ((string) $acc === (string) $billrefno) {
+	$response = [
+		"ResultCode" => 0,
+		"ResultDesc" => "Success",
+		"ThirdPartyTransID" => 0
+	];
+} else {
+	$response = [
+		"ResultCode" => 1,
+		"ResultDesc" => "Failed",
+		"ThirdPartyTransID" => 0
+	];
+}
+
+// Output the result as JSON
+echo json_encode($response);
+
+// Clean up
+$stmt->close();
+$con->close();
