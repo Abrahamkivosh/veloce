@@ -11,9 +11,10 @@ require_once "../shared/database.php";
 $smsService = new smsService();
 
 $now = time();
-//echo $now;
 $query1 = "SELECT DISTINCT username, planName, phone FROM userbillinfo";
 $result = mysqli_query($con, $query1);
+
+
 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
     $username = $row['username'];
@@ -25,59 +26,34 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     while ($row = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
         $fullname = $row['firstname'] . " " . $row['lastname'];
         $identity = $row['account'];
-        //echo $fullname."</br>";
-        //echo $identity."</br>";
-    }
-    $query3 = "SELECT value FROM radcheck WHERE username = '$username' AND attribute = 'expiration'";
-    $result3 = mysqli_query($con, $query3);
-    while ($row = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
-        $acctime = strtotime($row['value']);
-        $exptime = ($row['value']);
-        //echo ($acctime)."</br>&nbsp&nbsp&nbsp";
+        $query3 = "SELECT value FROM radcheck WHERE username = '$username' AND attribute = 'expiration'";
+        $result3 = mysqli_query($con, $query3);
+        while ($row = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
+            $acctime = strtotime($row['value']);
+            $exptime = ($row['value']);
+        }
 
-    }
+        $interval = round(($acctime - $now) / 86400);
+        $interval = intval(abs($interval));
 
-    $interval = round(($acctime - $now) / 86400);
-    $interval = intval(abs($interval));
-    switch ($interval) {
-        case 5:
-            echo "5 days left reminder </br>";
-            echo $fullname . "</br>";
-            echo $identity . "</br>";
-            echo $planname . "</br>";
-            echo $exptime . "</br>";
-            echo $phone . "</br>";
-            echo "----------------------------------</br>";
-            $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+        // continue if $identity  is not equal to 1145
+        if ($identity !== (string) 1145) {
+            continue;
+        }
 
-            break;
-        case 3:
-            echo "3 days left reminder </br>";
-            echo $fullname . "</br>";
-            echo $identity . "</br>";
-            echo $planname . "</br>";
-            echo $exptime . "</br>";
-            echo $phone . "</br>";
-            echo "----------------------------------</br>";
-            $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
-
-            break;
-        case 2:
-            echo "3 days left reminder </br>";
-            echo $fullname . "</br>";
-            echo $identity . "</br>";
-            echo $planname . "</br>";
-            echo $exptime . "</br>";
-            echo $phone . "</br>";
-            echo "----------------------------------</br>";
-            $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
-
-            break;
-        default:
-            // echo "No reminder for ". $fullname . "</br>";
-            // echo $phone . "</br>";
-            // echo "----------------------------------</br>";
-            break;
+        switch ($interval) {
+            case 5:
+                $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+                break;
+            case 3:
+                $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+                break;
+            case 2:
+                $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+                break;
+            default:
+                break;
+        }
     }
 }
 
