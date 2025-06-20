@@ -42,12 +42,15 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         switch ($interval) {
             case 5:
                 $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+                echo "SMS sent to $fullname ($phone) for plan $planname with expiration on $exptime\n";
                 break;
             case 3:
                 $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+                echo "SMS sent to $fullname ($phone) for plan $planname with expiration on $exptime\n";
                 break;
             case 2:
                 $smsService->renewalReminder($phone, $fullname, $identity, $planname, $exptime);
+                echo "SMS sent to $fullname ($phone) for plan $planname with expiration on $exptime\n";
                 break;
             default:
                 break;
