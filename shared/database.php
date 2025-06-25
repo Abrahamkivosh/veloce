@@ -8,8 +8,8 @@ Github: https://github.com/abrahamkivosh
 */
 // include config  read file
 // 
-// require_once "../cpanel/library/config_read.php";
-require_once __DIR__ . '/../cpanel/library/config_read.php';
+// require_once "../admin/library/config_read.php";
+require_once __DIR__ . '/../admin/library/config_read.php';
 
 $dbHost = $configValues['CONFIG_DB_HOST'];
 $dbUser = $configValues['CONFIG_DB_USER'];

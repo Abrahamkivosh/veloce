@@ -1,8 +1,8 @@
 <?php
 // import read env file
-// require_once  '../cpanel/library/read_env_file.php';
+// require_once  '../admin/library/read_env_file.php';
 
-require_once __DIR__ . '/../cpanel/library/read_env_file.php';
+require_once __DIR__ . '/../admin/library/read_env_file.php';
 
 class smsService
 {

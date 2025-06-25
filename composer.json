@@ -1,5 +1,5 @@
 {
-  "name": "christanetworks/vanilla-php-project",
+  "name": "veloce/vanilla-php-project",
   "description": "A basic vanilla PHP project.",
   "type": "project",
   "require": {
