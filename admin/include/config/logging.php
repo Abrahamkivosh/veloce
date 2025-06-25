@@ -1,11 +1,12 @@
 <?php
+
 /*********************************************************************
-* Name: logging.php
-* Author: Liran tal <liran.tal@gmail.com>
-*
-* This file is used for controlling the logging actions
-*
-*********************************************************************/
+ * Name: logging.php
+ * Author: Liran tal <liran.tal@gmail.com>
+ *
+ * This file is used for controlling the logging actions
+ *
+ *********************************************************************/
 
 
 /*
@@ -27,11 +28,16 @@
 * $configValues['CONFIG_LOG_FILE']
 *
 */
+if (!isset($configValues)) {
+	include 'include/config_read.php';
+}
+$operator = isset($_SESSION['operator_user']) ? $_SESSION['operator_user'] : 'unknown_operator';
+
 
 if ($configValues['CONFIG_LOG_PAGES'] == "yes") {
 	if (isset($log)) {
-	        $msgNotice = $operator . " " . $log;
-	        logMessage("NOTICE", $msgNotice, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
+		$msgNotice = $operator . " " . $log;
+		logMessage("NOTICE", $msgNotice, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
 	}
 }
 
@@ -39,8 +45,8 @@ if ($configValues['CONFIG_LOG_PAGES'] == "yes") {
 
 if ($configValues['CONFIG_LOG_QUERIES'] == "yes") {
 	if (isset($logQuery)) {
-	        $msgQuery = $operator . " " . $logQuery;
-	        logMessage("QUERY", $msgQuery, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
+		$msgQuery = $operator . " " . $logQuery;
+		logMessage("QUERY", $msgQuery, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
 	}
 }
 
@@ -48,8 +54,8 @@ if ($configValues['CONFIG_LOG_QUERIES'] == "yes") {
 
 if ($configValues['CONFIG_LOG_ACTIONS'] == "yes") {
 	if (isset($logAction)) {
-	        $msgAction = $operator . " " . $logAction;
-	        logMessage("ACTION", $msgAction, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
+		$msgAction = $operator . " " . $logAction;
+		logMessage("ACTION", $msgAction, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
 	}
 }
 
@@ -62,8 +68,8 @@ if ($configValues['CONFIG_LOG_ACTIONS'] == "yes") {
  ********************************************************************************/
 if ($configValues['CONFIG_DEBUG_SQL'] == "yes") {
 	if (isset($logDebugSQL)) {
-	        $msgDebugSQL = "- SQL -" . " " . $logDebugSQL . " on page: ";
-	        logMessage("DEBUG", $msgDebugSQL, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
+		$msgDebugSQL = "- SQL -" . " " . $logDebugSQL . " on page: ";
+		logMessage("DEBUG", $msgDebugSQL, $configValues['CONFIG_LOG_FILE'], $_SERVER["SCRIPT_NAME"]);
 	}
 }
 
@@ -71,17 +77,18 @@ if ($configValues['CONFIG_DEBUG_SQL'] == "yes") {
  * being viewed */
 if ($configValues['CONFIG_DEBUG_SQL_ONPAGE'] == "yes") {
 	if (isset($logDebugSQL)) {
-			echo "<br/><br/>";
-			echo "Debugging SQL Queries: <br/>";
-			echo $logDebugSQL;
-			echo "<br/><br/>";
-		}
+		echo "<br/><br/>";
+		echo "Debugging SQL Queries: <br/>";
+		echo $logDebugSQL;
+		echo "<br/><br/>";
+	}
 }
 
 
 
-function logMessage($type, $msg, $logFile, $currPage) {
-/*
+function logMessage($type, $msg, $logFile, $currPage)
+{
+	/*
 * @param $type               The message type, for example, NOTICE, DEBUG, ERROR, ACTION, etc...
 * @param $msg           	The message string which should be logged to the file
 * @param $logFile           The full path for the filename to write logs to
@@ -89,19 +96,16 @@ function logMessage($type, $msg, $logFile, $currPage) {
 * @return $table              The table name, either radcheck or radreply
 */
 
-        $date = date('M d G:i:s');
-        $msgString = $date . " " . $type . " " . $msg . " " . $currPage;
+	$date = date('M d G:i:s');
+	$msgString = $date . " " . $type . " " . $msg . " " . $currPage;
 
-        $fp = fopen($logFile, "a");
-        if ($fp) {
-        fwrite($fp, $msgString  . "\n");
-                fclose($fp);
-        } else {
+	$fp = fopen($logFile, "a");
+	if ($fp) {
+		fwrite($fp, $msgString  . "\n");
+		fclose($fp);
+	} else {
 
-                echo "<font color='#FF0000'>error: could not open the file for writing:<b> $logFile </b><br/></font>";
-                        echo "Check file permissions. The file should be writable by the webserver's user/group<br/>";
-        }
-
+		echo "<font color='#FF0000'>error: could not open the file for writing:<b> $logFile </b><br/></font>";
+		echo "Check file permissions. The file should be writable by the webserver's user/group<br/>";
+	}
 }
-
-?>
