@@ -3,8 +3,8 @@ header("Content-Type:application/json");
 $shortcode = '4044251';
 $consumerkey    = "B6uNEnOTXJc4IoG1e4Pk1GA7GWi0hlhJ";
 $consumersecret = "BO4nucSiwEZw4sbs";
-$validationurl = "https://christanetworks.co.ke/ubase/validation.php?token=217ab0d4de6d426df670759321392fc2";
-$confirmationurl = "https://christanetworks.co.ke/ubase/confirmation.php?token=217ab0d4de6d426df670759321392fc2";
+$validationurl = "https://Velocenetworks.co.ke/ubase/validation.php?token=217ab0d4de6d426df670759321392fc2";
+$confirmationurl = "https://Velocenetworks.co.ke/ubase/confirmation.php?token=217ab0d4de6d426df670759321392fc2";
 /* testing environment, comment the below two lines if on production */
 //$authenticationurl='https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
 //$registerurl = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl';

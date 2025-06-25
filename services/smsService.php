@@ -66,14 +66,14 @@ class smsService
 
     public function welcomeSMS($phone, $fullName, $accountNumber, $package, $userName, $password)
     {
-        $message = "Dear $fullName, Welcome to Christa Networks Limited. Your account number is $accountNumber. Your plan is $package. Please use Mpesa Paybill No. 4043919 to complete your payment.To access your online portal use https://www.christanetworks.co.ke/selfcare Username - $userName Password - $password";
+        $message = "Dear $fullName, Welcome to Veloce Limited. Your account number is $accountNumber. Your plan is $package. Please use Mpesa Paybill No. 4043919 to complete your payment.To access your online portal use https://www.Velocenetworks.co.ke/selfcare Username - $userName Password - $password";
         $this->setPhone($phone);
         $this->setText($message);
         $this->sendSms();
     }
     public function renewalReminder($phone, $fullName, $accountNumber, $package, $expiryDate)
     {
-        $message = "Dear $fullName Your account $accountNumber will expire on $expiryDate. Please topup to avoid disconnection. Your plan is $package. Mpesa paybill: 4043919. Thank you. Christa Networks. To access your online portal use https://www.christanetworks.co.ke/selfcare";
+        $message = "Dear $fullName Your account $accountNumber will expire on $expiryDate. Please topup to avoid disconnection. Your plan is $package. Mpesa paybill: 4043919. Thank you. Veloce. To access your online portal use https://www.Velocenetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
         return $this->sendSms();
@@ -81,7 +81,7 @@ class smsService
 
     public function confirmationOfPayment($phone, $newExpiryDate, $balance)
     {
-        $message = "Your subscription has been renewed to $newExpiryDate. Your Wallet balance is Ksh.$balance. To access your online portal use  https://www.christanetworks.co.ke/selfcare";
+        $message = "Your subscription has been renewed to $newExpiryDate. Your Wallet balance is Ksh.$balance. To access your online portal use  https://www.Velocenetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
 
@@ -90,8 +90,8 @@ class smsService
 
     public function disconnectionNotice($phone, $fullName, $accountNumber, $package)
     {
-        $message = "Dear $fullName, Your account $accountNumber has been disconnected. Please topup to continue enjoying our services. Your plan is $package. Mpesa paybill: 4043919. Thank you. Christa Networks. To access your online portal use
-        https://www.christanetworks.co.ke/selfcare";
+        $message = "Dear $fullName, Your account $accountNumber has been disconnected. Please topup to continue enjoying our services. Your plan is $package. Mpesa paybill: 4043919. Thank you. Veloce. To access your online portal use
+        https://www.Velocenetworks.co.ke/selfcare";
         $this->setPhone($phone);
         $this->setText($message);
         return $this->sendSms();

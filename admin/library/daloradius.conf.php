@@ -82,7 +82,7 @@ $configValues['CONFIG_DASHBOARD_DALO_DELAYHARD'] = '15';
 $configValues['CONFIG_INVOICE_TEMPLATE'] = 'invoice_template.html';
 $configValues['CONFIG_INVOICE_ITEM_TEMPLATE'] = 'invoice_item_template.html';
 $configValues['PAYBILL_NUMBER'] = '4043919';
-$configValues['CONFIG_DASHBOARD_DALO_MERCHANT'] = 'Christa Networks Limited';
+$configValues['CONFIG_DASHBOARD_DALO_MERCHANT'] = 'Veloce Limited';
 $configValues['BASE_URL'] = 'https://Veloce.co.ke/';
 
 

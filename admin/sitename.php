@@ -1,4 +1,3 @@
-<?php 
+<?php
 
-$sitename= "Christa Networks";
-?>
+$sitename = "Veloce";

@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
-    <title>Christa Networks Login</title>
+    <title>Veloce Login</title>
     <!-- Custom CSS -->
     <link href="dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -23,7 +23,7 @@
 
 <body>
 
-    <?php require('basic.php');?>
+    <?php require('basic.php'); ?>
     <div class="main-wrapper">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
@@ -49,20 +49,21 @@
                     <!-- Form -->
                     <form class="form-horizontal m-t-20" id="loginform" action="" method="post" name="login">
                         <div class="row p-b-30">
-                            
+
                         </div>
-						<div class= "flex" style = "color:red; text-align: center; font-size: 18px;"> You have been successfully registered!&nbsp <a style = "color:#79e910 ;" href='<?php echo BASE_URL; ?>/selfcare'><button class="btn btn-success" id="to-recover" type="button">Login</button></a></p></div>
+                        <div class="flex" style="color:red; text-align: center; font-size: 18px;"> You have been successfully registered!&nbsp <a style="color:#79e910 ;" href='<?php echo BASE_URL; ?>/selfcare'><button class="btn btn-success" id="to-recover" type="button">Login</button></a></p>
+                        </div>
                         <div class="row border-top border-secondary">
-                           
+
                         </div>
-						
+
                     </form>
-					
+
                 </div>
-                
+
             </div>
         </div>
-		
+
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
@@ -90,21 +91,20 @@
     <!-- This page plugin js -->
     <!-- ============================================================== -->
     <script>
+        $('[data-toggle="tooltip"]').tooltip();
+        $(".preloader").fadeOut();
+        // ============================================================== 
+        // Login and Recover Password 
+        // ============================================================== 
+        $('#to-recover').on("click", function() {
+            $("#loginform").slideUp();
+            $("#recoverform").fadeIn();
+        });
+        $('#to-login').click(function() {
 
-    $('[data-toggle="tooltip"]').tooltip();
-    $(".preloader").fadeOut();
-    // ============================================================== 
-    // Login and Recover Password 
-    // ============================================================== 
-    $('#to-recover').on("click", function() {
-        $("#loginform").slideUp();
-        $("#recoverform").fadeIn();
-    });
-    $('#to-login').click(function(){
-        
-        $("#recoverform").hide();
-        $("#loginform").fadeIn();
-    });
+            $("#recoverform").hide();
+            $("#loginform").fadeIn();
+        });
     </script>
 
 </body>

@@ -27,7 +27,7 @@ include("auth.php"); //include auth.php file on all secure pages
   <?php require('basic.php'); ?>
   <!--Header-part-->
   <div id="header">
-    <h1><a href="dash.php">Christa Networks</a></h1>
+    <h1><a href="dash.php">Veloce</a></h1>
   </div>
   <!--close-Header-part-->
 

@@ -5,9 +5,9 @@ function sendSms()
 
     $text = str_replace(' ', '+', $message);
 
-    //   $url = 'http://api.sms.bambika.co.ke:8555/?target=CHRISTA_NET&msisdn='.$fnum.'&text='.$text.'&login=christa_net&pass=d3be5132db85a1e8fae4a25555872339';
+    //   $url = 'http://api.sms.bambika.co.ke:8555/?target=Veloce_NET&msisdn='.$fnum.'&text='.$text.'&login=Veloce_net&pass=d3be5132db85a1e8fae4a25555872339';
 
-    $new_url = "https://client.airtouch.co.ke:9012/sms/api/?issn=CHRISTA_NET&msisdn=$fnum&text=$text+api+message&username=christanet&password=100ab9a90f84414410c6f7e0c62a2346";
+    $new_url = "https://client.airtouch.co.ke:9012/sms/api/?issn=Veloce_NET&msisdn=$fnum&text=$text+api+message&username=Velocenet&password=100ab9a90f84414410c6f7e0c62a2346";
 
 
 
