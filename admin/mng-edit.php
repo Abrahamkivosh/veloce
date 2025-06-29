@@ -59,7 +59,7 @@ if (isset($_REQUEST['submit'])) {
 	$notes = $_REQUEST['notes'];
 	isset($_POST['changeUserInfo']) ? $ui_changeuserinfo = $_POST['changeUserInfo'] : $ui_changeuserinfo = "0";
 	isset($_POST['enableUserPortalLogin']) ? $ui_enableUserPortalLogin = $_POST['enableUserPortalLogin'] : $ui_enableUserPortalLogin = "0";
-	isset($_POST['portalLoginPassword']) ? $ui_PortalLoginPassword = $_POST['portalLoginPassword'] : $ui_PortalLoginPassword = "1234";
+	isset($_POST['portalLoginPassword']) ? $ui_PortalLoginPassword = $_POST['portalLoginPassword'] : $ui_PortalLoginPassword = $username;
 
 	isset($_POST['planName']) ? $planName = $_POST['planName'] : $planName = "";
 	isset($_POST['oldplanName']) ? $oldplanName = $_POST['oldplanName'] : $oldplanName = "";
@@ -465,7 +465,7 @@ if (isset($_REQUEST['submit'])) {
 					$value = "'$value'";
 					$passwordAttribute = 1;	// if this is a password
 					break;					// attribute then we tag it
-					// as true
+				// as true
 				default:
 					$value = "'$value'";
 					$passwordAttribute = 0;

@@ -12,7 +12,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.ico">
     <title>Veloce Login</title>
     <!-- Custom CSS -->
-    <link href="dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -44,14 +43,15 @@
             <div class="auth-box bg-dark border-top border-secondary">
                 <div id="loginform">
                     <div class="text-center p-t-20 p-b-20">
-                        <span class="db"><img src="img/logo.png" alt="logo" /></span>
                     </div>
                     <!-- Form -->
                     <form class="form-horizontal m-t-20" id="loginform" action="" method="post" name="login">
                         <div class="row p-b-30">
 
                         </div>
-                        <div class="flex" style="color:red; text-align: center; font-size: 18px;"> User already exists!&nbsp <a style="color:#79e910 ;" href='<?php echo BASE_URL; ?>/selfcare/login.php'><button class="btn btn-success" id="to-recover" type="button">Login</button></a></p>
+                        <div class="flex" style="color:red; text-align: center; font-size: 18px;"> User already exists!&nbsp <a
+                                style="color:#79e910 ;" href='<?php echo BASE_URL; ?>/selfcare/login.php'><button
+                                    class="btn btn-success" id="to-recover" type="button">Login</button></a></p>
                         </div>
                         <div class="row border-top border-secondary">
 

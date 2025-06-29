@@ -18,7 +18,8 @@
 
     <!-- Font-->
     <link rel="stylesheet" type="text/css" href="css/montserrat-font.css">
-    <link rel="stylesheet" type="text/css" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
     <!-- Main Style Css -->
     <link rel="stylesheet" href="css/style.css" />
     <!--[if lte IE 6.5]>
@@ -149,8 +150,12 @@
         }
 
         $smsService->welcomeSMS($fnum, $fullName, $accounew, $planName, $username, $password);
+        // Hash the password using password_hash
+        $plainPassword = $password; // Store the plain password for hashing
+        $enabled = 1; // Assuming you want to enable the user by default
+        $hashedPassword = password_hash($plainPassword, PASSWORD_DEFAULT);
 
-        $query = "INSERT into `userinfo` (enableportallogin, firstname, lastname, username, portalloginpassword, email, mobilephone, creationdate, creationby, updatedate, updateby, ckey, ctime, mng_hs_usr, account) VALUES ('$enabled', '$firstname', '$lastname', '$username', '" . md5($password) . "', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$ckey', '$ctime', '$mng_hs_usr', '$accounew')";
+        $query = "INSERT into `userinfo` (enableportallogin, firstname, lastname, username, portalloginpassword, email, mobilephone, creationdate, creationby, updatedate, updateby, ckey, ctime, mng_hs_usr, account) VALUES ('$enabled', '$firstname', '$lastname', '$username', '" . $hashedPassword  . "', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$ckey', '$ctime', '$mng_hs_usr', '$accounew')";
 
         $query2 = "INSERT into `userbillinfo` (username, planName, email, phone, creationdate, creationby, updatedate, updateby, lastbill, nextbill, mng_hs_usr, account, area, location, building, country) VALUES ('$username', '$planName', '$email', '$mobilephone', '$trn_date', '$created_by', '$update', '$updated_by', '$lastbill', '$nextbill', '$mng_hs_usr', '$accounew', '$area', '$location', '$building', '$country')";
 
@@ -242,7 +247,8 @@
                         </div>
                         <div class="form-group">
                             <div class="form-row form-row-1">
-                                <input type="text" name="firstname" id="first_name" class="input-text" placeholder="First Name" required>
+                                <input type="text" name="firstname" id="first_name" class="input-text" placeholder="First Name"
+                                    required>
                             </div>
                             <div class="form-row form-row-2">
                                 <input type="text" name="lastname" id="last_name" class="input-text" placeholder="Last Name" required>
@@ -261,7 +267,8 @@
                                 <input type="text" name="username" class="business" id="business" placeholder="Username" required>
                             </div>
                             <div class="form-row form-row-4">
-                                <input type="password" name="password" class="password" id="password" placeholder="Password" required autocomplete="new-password">
+                                <input type="password" name="password" class="password" id="password" placeholder="Password" required
+                                    autocomplete="new-password">
                                 <span class="select-btn">
                                     <i class="iconify" onclick="myFunction()" data-icon="zmdi:eye" data-inline="false"></i>
                                 </span>
@@ -272,7 +279,8 @@
                     <div class="form-right">
                         <h2>Contact Details</h2>
                         <div class="form-row">
-                            <input type="text" name="location" class="street" id="demo" placeholder="Geolocation" required onfocus="getLocation()">
+                            <input type="text" name="location" class="street" id="demo" placeholder="Geolocation" required
+                                onfocus="getLocation()">
                         </div>
                         <div class="form-group">
 
@@ -300,7 +308,8 @@
                             <input type="text" name="email" id="your_email" class="input-text" placeholder="Email">
                         </div>
                         <div class="form-row">
-                            <input type="text" required autocomplete="off" name="mobilephone" id="phone" class="input-text" required pattern="[0-9]+" placeholder="Phone">
+                            <input type="text" required autocomplete="off" name="mobilephone" id="phone" class="input-text" required
+                                pattern="[0-9]+" placeholder="Phone">
                             <span class="highlight"></span>
                             <span class="bar"></span>
                         </div>

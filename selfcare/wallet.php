@@ -230,20 +230,50 @@ include("auth.php"); //include auth.php file on all secure pages
 
     <div class="container-fluid">
       <div class="quick-actions_homepage">
-        <ul class="quick-actions">
 
 
+        <div class="row-fluid">
+          <div class="span6">
+            <div class="widget-box">
+              <div class="widget-title bg_lg" style="background: #222;">
+                <span class="icon"><i class="icon-money"></i></span>
+                <h5>Wallet Overview</h5>
+              </div>
+              <div class="widget-content" style="font-size: 1.2em;">
+                <p><strong>Account Number:</strong> <span
+                    style="color: #007bff;"><?php echo htmlspecialchars($account); ?></span></p>
+                <p><strong>Current Balance:</strong> <span
+                    style="color: #28a745; font-size: 1.5em;">₦<?php echo number_format($balance, 2); ?></span></p>
+              </div>
+            </div>
+          </div>
+          <div class="span6">
+            <div class="widget-box">
+              <div class="widget-title bg_ly" style="background: #f39c12;">
+                <span class="icon"><i class="icon-plus"></i></span>
+                <h5>Top Up Wallet</h5>
+              </div>
+              <div class="widget-content">
+                <form action="topup.php" method="post" class="form-horizontal" style="margin-bottom:0;">
+                  <div class="control-group">
+                    <label class="control-label" for="topup-amount">Amount (KES):</label>
+                    <div class="controls">
+                      <input type="number" min="100" step="100" name="amount" id="topup-amount" class="span8"
+                        placeholder="Enter amount" required>
+                    </div>
+                  </div>
 
-          <?php
 
-          echo "<h2>My account:" . " " . $account . " " . "balance is<br>Ksh." . " " . $balance . "</h2>";
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success"><i class="icon-arrow-up"></i> Top Up Now</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          ?>
-
-          < </div>
-            <!--End-Action boxes-->
-
-            <!--Chart-box-->
+        <!--Chart-box-->
 
       </div>
 
@@ -255,91 +285,92 @@ include("auth.php"); //include auth.php file on all secure pages
         <div id="footer" class="span12"> &copy;&nbsp<?php echo date('Y') ?> Client portal. Brought to you by <a
             href="http://lagaster.org">Lagaster Microsystems</a> </div>
       </div>
+    </div>
 
-      <!--end-Footer-part-->
+    <!--end-Footer-part-->
 
-      <script src="js/excanvas.min.js"></script>
-      <script src="js/index.js"></script>
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-      <script src="js/jquery.min.js"></script>
-      <script src="js/jquery.ui.custom.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/jquery.flot.min.js"></script>
-      <script src="js/jquery.flot.resize.min.js"></script>
-      <script src="js/jquery.peity.min.js"></script>
-      <script src="js/fullcalendar.min.js"></script>
-      <script src="js/matrix.js"></script>
-      <script src="js/matrix.dashboard.js"></script>
-      <script src="js/jquery.gritter.min.js"></script>
-      <script src="js/matrix.interface.js"></script>
-      <script src="js/matrix.chat.js"></script>
-      <script src="js/jquery.validate.js"></script>
-      <script src="js/matrix.form_validation.js"></script>
-      <script src="js/jquery.wizard.js"></script>
-      <script src="js/jquery.uniform.js"></script>
-      <script src="js/select2.min.js"></script>
-      <script src="js/matrix.popover.js"></script>
-      <script src="js/jquery.dataTables.min.js"></script>
-      <script src="js/matrix.tables.js"></script>
+    <script src="js/excanvas.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.ui.custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.flot.min.js"></script>
+    <script src="js/jquery.flot.resize.min.js"></script>
+    <script src="js/jquery.peity.min.js"></script>
+    <script src="js/fullcalendar.min.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/matrix.dashboard.js"></script>
+    <script src="js/jquery.gritter.min.js"></script>
+    <script src="js/matrix.interface.js"></script>
+    <script src="js/matrix.chat.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <script src="js/matrix.form_validation.js"></script>
+    <script src="js/jquery.wizard.js"></script>
+    <script src="js/jquery.uniform.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script src="js/matrix.popover.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/matrix.tables.js"></script>
 
-      <script type="text/javascript">
-        $(".modal-trigger").click(function(e) {
-          e.preventDefault();
-          dataModal = $(this).attr("data-modal");
-          $("#" + dataModal).css({
-            "display": "block"
-          });
-          // $("body").css({"overflow-y": "hidden"}); //Prevent double scrollbar.
+    <script type="text/javascript">
+      $(".modal-trigger").click(function(e) {
+        e.preventDefault();
+        dataModal = $(this).attr("data-modal");
+        $("#" + dataModal).css({
+          "display": "block"
         });
+        // $("body").css({"overflow-y": "hidden"}); //Prevent double scrollbar.
+      });
 
-        $(".close-modal, .modal-sandbox").click(function() {
-          $(".modal").css({
-            "display": "none"
-          });
-          // $("body").css({"overflow-y": "auto"}); //Prevent double scrollbar.
+      $(".close-modal, .modal-sandbox").click(function() {
+        $(".modal").css({
+          "display": "none"
         });
-      </script>
-      <script type="text/javascript">
-        $(".confirm").click(function(e) {
-          e.preventDefault();
-          dataModal = $(this).attr("data-modal");
-          $("#" + dataModal).css({
-            "display": "block"
-          });
-          // $("body").css({"overflow-y": "hidden"}); //Prevent double scrollbar.
+        // $("body").css({"overflow-y": "auto"}); //Prevent double scrollbar.
+      });
+    </script>
+    <script type="text/javascript">
+      $(".confirm").click(function(e) {
+        e.preventDefault();
+        dataModal = $(this).attr("data-modal");
+        $("#" + dataModal).css({
+          "display": "block"
         });
+        // $("body").css({"overflow-y": "hidden"}); //Prevent double scrollbar.
+      });
 
-        $(".close-modal, .modal-sandbox").click(function() {
-          $(".modal").css({
-            "display": "none"
-          });
-          // $("body").css({"overflow-y": "auto"}); //Prevent double scrollbar.
+      $(".close-modal, .modal-sandbox").click(function() {
+        $(".modal").css({
+          "display": "none"
         });
-      </script>
-      <script type="text/javascript">
-        // This function is called from the pop-up menus to transfer to
-        // a different page. Ignore if the value returned is a null string:
-        function goPage(newURL) {
+        // $("body").css({"overflow-y": "auto"}); //Prevent double scrollbar.
+      });
+    </script>
+    <script type="text/javascript">
+      // This function is called from the pop-up menus to transfer to
+      // a different page. Ignore if the value returned is a null string:
+      function goPage(newURL) {
 
-          // if url is empty, skip the menu dividers and reset the menu selection to default
-          if (newURL != "") {
+        // if url is empty, skip the menu dividers and reset the menu selection to default
+        if (newURL != "") {
 
-            // if url is "-", it is this page -- reset the menu:
-            if (newURL == "-") {
-              resetMenu();
-            }
-            // else, send page to designated URL            
-            else {
-              document.location.href = newURL;
-            }
+          // if url is "-", it is this page -- reset the menu:
+          if (newURL == "-") {
+            resetMenu();
+          }
+          // else, send page to designated URL            
+          else {
+            document.location.href = newURL;
           }
         }
+      }
 
-        // resets the menu selection upon entry to this page:
-        function resetMenu() {
-          document.gomenu.selector.selectedIndex = 2;
-        }
-      </script>
+      // resets the menu selection upon entry to this page:
+      function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+      }
+    </script>
 </body>
 
 </html>
